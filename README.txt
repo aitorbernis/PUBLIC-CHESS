@@ -47,3 +47,8 @@ how to git (Terminal) :
     - write terminal: git push -u origin master --> pushes changes to github :D
 GRACIES MICHI :) ^^ 
 
+cambis michi bro ya ves pro:
+
+    - clases map una matriu en comptes de for per filtrar i codi elegant (michi style)
+    - i la resta esta per venir
+

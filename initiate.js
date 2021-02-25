@@ -205,8 +205,8 @@ export function startingFunction() {
     gameNumberArray.push(numberMatrix)
     instantAvailMatrix()
     drawPieces()
+    clickFunction()
     turn = 1
-    console.log(nameMatrix[1][1].rule)
 }
 
 
@@ -216,21 +216,24 @@ export function newMoveFunction() {
     makeNumberMatrix()
     instantAvailMatrix()
     drawPieces()
-    clickFunction()
 }
 
 
 
 export function clickFunction() {
-    cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
+    cvs.addEventListener('mousedown', function(e) {clickHandler(cvs, e)})
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
 export var newNameMatrix
+var clickState = false
 
-function selectedPiece(cvs, event) {
+var currAvailMatr = []
+
+function clickHandler(cvs, event) {
+    newMoveFunction()
     newNameMatrix = gameNameArray[gameNameArray.length-1].map(a => Object.assign({}, a))
     const rect = cvs.getBoundingClientRect()
     var x = event.clientX - rect.left
@@ -242,100 +245,174 @@ function selectedPiece(cvs, event) {
     
     for (let c = 0; c < 8; c++){
         for (let r = 0; r < 8; r++) {
-            if (c == x && r == y) {
-                if (gameNumberArray[gameNumberArray.length-1][y][x] != 0) {
-                    if (turn == 1) {
-                            if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
-                                paintSelectedPieceWhite(c+1, r+1)
-                                gameNameArray[gameNameArray.length-1][y][x].checkAvail()
-                                cvs.addEventListener('mousedown', function(e) {destinationPlace(cvs, e, x, y, gameNameArray)}, {once : true})
-                                
-
-                            }
-                            else if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
-                                clickFunction()
-                                return
-
-                            }
+            var newX = x+1
+            var newY = y+1
+            if (newX == 0 || newX == 9 || newY == 0 || newY == 9) {
+                newMoveFunction()
+                return
+            }
+            else if (c == x && r == y) {
+                if (turn == 1) {
+                    //click sobre pieza blanca en turno blancas y clickState falso
+                    if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
+                        clickState = true
+                        paintSelectedPieceWhite(c+1, r+1) // change to uniform
+                        gameNameArray[gameNameArray.length-1][y][x].checkAvail()
+                        currAvailMatr = availMatrix.map(a => Object.assign({}, a))
+                        return
                     }
-
-                    else if (turn == -1) {
-                        if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
-                            paintSelectedPieceBlack(c+1, r+1)
-                            gameNameArray[gameNameArray.length-1][y][x].checkAvail()
-                            cvs.addEventListener('mousedown', function(e) {destinationPlace(cvs, e, x, y)}, {once : true})
-
-                        }
-                        else if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
-                            clickFunction()
+                    else if(clickState == true) {
+                        //console.log(currAvailMatr)
+                        console.log("cs true")
+                        if(currAvailMatr[r][c] == 1){
+                            console.log("si")
                             return
+                        }
+                        else{
+                            clickState = false
+                            newMoveFunction()
+                            return
+                        }
 
+                    }
+                    
+                }
+                else if (turn == -1) {
+                    if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
+                        clickState = true
+                        paintSelectedPieceWhite(c+1, r+1) // change to uniform
+                        gameNameArray[gameNameArray.length-1][y][x].checkAvail()
+                        currAvailMatr =availMatrix.map(a => Object.assign({}, a))
+                        return
+                    }
+                    else if(clickState = true) {
+                        //console.log(currAvailMatr)
+                        if(currAvailMatr[r][c] == 1){
+                            console.log("si")
+                            return
+                        }
+                        else{
+                            clickState = false
+                            newMoveFunction()
+                            return
                         }
                     }
-                }
-                if (gameNumberArray[gameNumberArray.length-1][y][x] == 0) {
-                    clickFunction()
-                    return
-
                 }
             }
+
         }
     }
+    return 
 }
 
-function destinationPlace(cvs, event, c, r) {
-    const rect = cvs.getBoundingClientRect()
-    var x = event.clientX - rect.left
-    var y = event.clientY - rect.top
-    x = Math.floor(x/100) - 1
-    y = Math.floor(y/100) - 1
-    console.log("Pressed square", x+1, y+1)
-    if (turn == 1) {
-        if (availMatrix[y][x] == 1 || availMatrix[y][x] == -1 ) {
+
+
+// function selectedPiece(cvs, event) {
+//     newNameMatrix = gameNameArray[gameNameArray.length-1].map(a => Object.assign({}, a))
+//     const rect = cvs.getBoundingClientRect()
+//     var x = event.clientX - rect.left
+//     var y = event.clientY - rect.top
+//     x = Math.floor(x/100) - 1
+//     y = Math.floor(y/100) - 1
+    
+//     console.log("Pressed square", x+1, y+1))
+    
+//     for (let c = 0; c < 8; c++){
+//         for (let r = 0; r < 8; r++) {
+//             if (c == x && r == y) {
+//                 if (gameNumberArray[gameNumberArray.length-1][y][x] != 0) {
+//                     if (turn == 1) {
+//                             if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
+//                                 paintSelectedPieceWhite(c+1, r+1)
+//                                 gameNameArray[gameNameArray.length-1][y][x].checkAvail()
+//                                 cvs.addEventListener('mousedown', function(e) {destinationPlace(cvs, e, x, y, gameNameArray)}, {once : true})
+                                
+
+//                             }
+//                             else if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
+//                                 clickFunction()
+//                                 return
+
+//                             }
+//                     }
+
+//                     else if (turn == -1) {
+//                         if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
+//                             paintSelectedPieceBlack(c+1, r+1)
+//                             gameNameArray[gameNameArray.length-1][y][x].checkAvail()
+//                             cvs.addEventListener('mousedown', function(e) {destinationPlace(cvs, e, x, y)}, {once : true})
+
+//                         }
+//                         else if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
+//                             clickFunction()
+//                             return
+
+//                         }
+//                     }
+//                 }
+//                 if (gameNumberArray[gameNumberArray.length-1][y][x] == 0) {
+//                     clickFunction()
+//                     return
+
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// function destinationPlace(cvs, event, c, r) {
+//     const rect = cvs.getBoundingClientRect()
+//     var x = event.clientX - rect.left
+//     var y = event.clientY - rect.top
+//     x = Math.floor(x/100) - 1
+//     y = Math.floor(y/100) - 1
+//     console.log("Pressed square", x+1, y+1)
+//     if (turn == 1) {
+//         if (availMatrix[y][x] == 1 || availMatrix[y][x] == -1 ) {
             
-            var pieceToMove = gameNameArray[gameNameArray.length-1][r][c]
-            newNameMatrix[r][c] = 0
-            newNameMatrix[y][x] = pieceToMove
-            gameNameArray.push(newNameMatrix)
-            newMoveFunction()
-            gameNumberArray.push(numberMatrix)
-            newNameMatrix[y][x].checkAvail()
-            console.log(gameNameArray)
-            console.log(ruleState.check)
-            turn = turn * (-1)
-            cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
+//             var pieceToMove = gameNameArray[gameNameArray.length-1][r][c]
+//             newNameMatrix[r][c] = 0
+//             newNameMatrix[y][x] = pieceToMove
+//             gameNameArray.push(newNameMatrix)
+//             newMoveFunction()
+//             gameNumberArray.push(numberMatrix)
+//             newNameMatrix[y][x].checkAvail()
+//             console.log(gameNameArray)
+//             console.log(ruleState.check)
+//             turn = turn * (-1)
+//             cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
     
-            // console.log("Name Matrix", gameNameArray)
-            // console.log("Number Matrix", gameNumberArray)
-        }
-        if (availMatrix[y][x] == 0) {
-            newMoveFunction()
+//             // console.log("Name Matrix", gameNameArray)
+//             // console.log("Number Matrix", gameNumberArray)
+//         }
+//         if (availMatrix[y][x] == 0) {
+//             newMoveFunction()
     
-        }
-    }
-    else if (turn == -1) {
-        if (availMatrix[y][x] == 2 || availMatrix[y][x] == -2) {
-            var pieceToMove = gameNameArray[gameNameArray.length-1][r][c]
-            newNameMatrix[r][c] = 0
-            newNameMatrix[y][x] = pieceToMove
-            gameNameArray.push(newNameMatrix)
-            newMoveFunction()
-            gameNumberArray.push(numberMatrix)
-            newNameMatrix[y][x].checkAvail()
-            console.log(gameNameArray)
-            turn = turn * (-1)
-            cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
+//         }
+//     }
+//     else if (turn == -1) {
+//         if (availMatrix[y][x] == 2 || availMatrix[y][x] == -2) {
+//             var pieceToMove = gameNameArray[gameNameArray.length-1][r][c]
+//             newNameMatrix[r][c] = 0
+//             newNameMatrix[y][x] = pieceToMove
+//             gameNameArray.push(newNameMatrix)
+//             newMoveFunction()
+//             gameNumberArray.push(numberMatrix)
+//             newNameMatrix[y][x].checkAvail()
+//             console.log(gameNameArray)
+//             turn = turn * (-1)
+//             cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
     
-            // console.log("Name Matrix", gameNameArray)
-            // console.log("Number Matrix", gameNumberArray)
-        }
-        if (availMatrix[y][x] == 0) {
-            newMoveFunction()
+//             // console.log("Name Matrix", gameNameArray)
+//             // console.log("Number Matrix", gameNumberArray)
+//         }
+//         if (availMatrix[y][x] == 0) {
+//             newMoveFunction()
     
-        }
-    }
+//         }
+//     }
     
-}
+// }
 
 
 

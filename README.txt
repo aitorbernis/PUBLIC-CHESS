@@ -40,10 +40,10 @@
     - Go throught the last nameMatrix and draw every piece at its position
 
 how to git (Terminal) :    
-    - modified code
-    - git status --> identify modified files in terminal
-    - git add --all or git add filename --> add to commit later
-    - git commit -m "message" --> commit with explanatory message
-    - git push -u origin master --> pushes changes to github :D 
+    - cambiar codi
+    - write terminal: git status || --> identify modified files in terminal
+    - write terminal: git add --all || (or git add filename) --> add a new file(s)
+    - write terminal: git commit -m || "message" --> commit with explanatory message
+    - write terminal: git push -u origin master --> pushes changes to github :D
+GRACIES MICHI :) ^^ 
 
-    

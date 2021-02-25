@@ -4,7 +4,7 @@ export const sqSize = 100
 
 // size of the whole canvas
 const fieldSize = 10
-
+//hijo de puta
 // indicators at the canvas
 const numbersx = ["   c", 1, 2, 3, 4, 5, 6, 7, 8, 9]
 const numbersy = ["r", 1, 2, 3, 4, 5, 6, 7, 8, 9]

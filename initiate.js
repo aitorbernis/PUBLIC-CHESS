@@ -261,6 +261,7 @@ function clickHandler(cvs, event) {
     if (turn == 1) {
         //click sobre pieza blanca en turno blancas y clickState falso
         if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "white"){
+            // problema, fa una carrega abans de apretar la primera fitxa
             newMoveFunction()
             paintSelectedPieceWhite(xCanvas, yCanvas) // paint selected piece
             gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
@@ -280,6 +281,7 @@ function clickHandler(cvs, event) {
                 turn = turn * (-1)
                 newMoveFunction()
                 console.log("si")
+                console.log("Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard)
                 return
             }
             else {
@@ -313,6 +315,7 @@ function clickHandler(cvs, event) {
                 turn = turn * (-1)
                 newMoveFunction()
                 console.log("si")
+                console.log("Moved black piece from: ", xPos, yPos, " to: ", xBoard, yBoard)
                 return
             }
             else {

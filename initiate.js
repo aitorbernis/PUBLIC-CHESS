@@ -194,7 +194,7 @@ function paintSelectedPieceBlack(c, r) {
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-var turn = 0
+export var turn = 0
 export function startingFunction() {
     board()
     makeStartingMatrix()
@@ -214,6 +214,7 @@ export function newMoveFunction() {
     board()
     setPosition()
     makeNumberMatrix()
+    gameNumberArray.push(numberMatrix)
     instantAvailMatrix()
     drawPieces()
 }
@@ -231,77 +232,96 @@ export var newNameMatrix
 var clickState = false
 
 var currAvailMatr = []
+var xPos = 0
+var yPos = 0
+var pieceToMove = 0
 
 function clickHandler(cvs, event) {
-    newMoveFunction()
+
     newNameMatrix = gameNameArray[gameNameArray.length-1].map(a => Object.assign({}, a))
     const rect = cvs.getBoundingClientRect()
     var x = event.clientX - rect.left
     var y = event.clientY - rect.top
-    x = Math.floor(x/100) - 1
-    y = Math.floor(y/100) - 1
+    //CANVAS takes whole window, from 0 to 9 (10x10) used for everything referred to drawing and click point
+    var xCanvas = Math.floor(x/100)
+    var yCanvas = Math.floor(y/100)
+
+    //BOARD takes the board, from 0 to 7 (8x8) used for everything referring to matrixes
+    var xBoard = Math.floor(x/100) - 1
+    var yBoard = Math.floor(y/100) - 1
     
-    console.log("Pressed square", x+1, y+1)
-    
-    for (let c = 0; c < 8; c++){
-        for (let r = 0; r < 8; r++) {
-            var newX = x+1
-            var newY = y+1
-            if (newX == 0 || newX == 9 || newY == 0 || newY == 9) {
+    console.log("Canvas Pressed Square", xCanvas, yCanvas)
+    console.log("Board Pressed Square", xBoard, yBoard)
+
+    // if pressed off the board, just return (out of board, so use CANVAS)
+    if (xCanvas == 0 || xCanvas == 9 || yCanvas == 0 || yCanvas == 9) {
+        return
+    }
+
+    if (turn == 1) {
+        //click sobre pieza blanca en turno blancas y clickState falso
+        if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "white"){
+            newMoveFunction()
+            paintSelectedPieceWhite(xCanvas, yCanvas) // paint selected piece
+            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
+            clickState = true
+            pieceToMove = gameNameArray[gameNameArray.length-1][yBoard][xBoard]
+            xPos = xBoard
+            yPos = yBoard
+            return
+        }
+        else if (clickState == true) {
+            //console.log(currAvailMatr)
+            // console.log("cs true")
+            if (availMatrix[yBoard][xBoard] == 1 || availMatrix[yBoard][xBoard] == -1){
+                newNameMatrix[yPos][xPos] = 0
+                newNameMatrix[yBoard][xBoard] = pieceToMove
+                gameNameArray.push(newNameMatrix)
+                turn = turn * (-1)
+                newMoveFunction()
+                console.log("si")
+                return
+            }
+            else {
+                clickState = false
                 newMoveFunction()
                 return
             }
-            else if (c == x && r == y) {
-                if (turn == 1) {
-                    //click sobre pieza blanca en turno blancas y clickState falso
-                    if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
-                        clickState = true
-                        paintSelectedPieceWhite(c+1, r+1) // change to uniform
-                        gameNameArray[gameNameArray.length-1][y][x].checkAvail()
-                        currAvailMatr = availMatrix.map(a => Object.assign({}, a))
-                        return
-                    }
-                    else if(clickState == true) {
-                        //console.log(currAvailMatr)
-                        console.log("cs true")
-                        if(currAvailMatr[r][c] == 1){
-                            console.log("si")
-                            return
-                        }
-                        else{
-                            clickState = false
-                            newMoveFunction()
-                            return
-                        }
-
-                    }
-                    
-                }
-                else if (turn == -1) {
-                    if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
-                        clickState = true
-                        paintSelectedPieceWhite(c+1, r+1) // change to uniform
-                        gameNameArray[gameNameArray.length-1][y][x].checkAvail()
-                        currAvailMatr =availMatrix.map(a => Object.assign({}, a))
-                        return
-                    }
-                    else if(clickState = true) {
-                        //console.log(currAvailMatr)
-                        if(currAvailMatr[r][c] == 1){
-                            console.log("si")
-                            return
-                        }
-                        else{
-                            clickState = false
-                            newMoveFunction()
-                            return
-                        }
-                    }
-                }
-            }
 
         }
+        
     }
+    else if (turn == -1) {
+        //click sobre pieza blanca en turno blancas y clickState falso
+        if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "black"){
+            newMoveFunction()
+            paintSelectedPieceBlack(xCanvas, yCanvas) // paint selected piece
+            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
+            clickState = true
+            pieceToMove = gameNameArray[gameNameArray.length-1][yBoard][xBoard]
+            xPos = xBoard
+            yPos = yBoard
+            return
+        }
+        else if (clickState == true) {
+            //console.log(currAvailMatr)
+            // console.log("cs true")
+            if (availMatrix[yBoard][xBoard] == 2 || availMatrix[yBoard][xBoard] == -2){
+                newNameMatrix[yPos][xPos] = 0
+                newNameMatrix[yBoard][xBoard] = pieceToMove
+                gameNameArray.push(newNameMatrix)
+                turn = turn * (-1)
+                newMoveFunction()
+                console.log("si")
+                return
+            }
+            else {
+                clickState = false
+                newMoveFunction()
+                return
+            }
+        }
+    }    
     return 
 }
 

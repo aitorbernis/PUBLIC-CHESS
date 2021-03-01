@@ -1,4 +1,4 @@
-import {numberMatrix, availMatrix} from "./initiate.js"
+import {numberMatrix, availMatrix, rule, kingPosition} from "./initiate.js"
 export const cvs = document.getElementById("chessBoard")
 export const ctx = cvs.getContext("2d")
 export const sqSize = 100
@@ -7,12 +7,7 @@ export const sqSize = 100
 // 0 = tots, 1 = King, 2 = Queen, 3 = Bishop, 4 = Knight, 5 = Rook, 6 = Pawn
 const vj = 0
 
-export var ruleState = {
-    check: false,
-    pawnPromotion: false,
-    castleKing: false,
-    castleQueen: false,
-}
+
 
 // colors the available position squares at canvas
 function colorSqWhite(c, r) {
@@ -58,11 +53,10 @@ function paintAvailable() {
 
 // we create a class for each piece type
 export class King {
-    constructor(color, c, r, rule) {
+    constructor(color, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
-        this.rule = rule
     }
     // makes king white
     drawPiece() {
@@ -127,11 +121,10 @@ export class King {
     }
 }
 export class Queen {
-    constructor(color, c, r, rule) {
+    constructor(color, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
-        this.rule = rule
     }
     // makes king white
     drawPiece() {
@@ -170,8 +163,6 @@ export class Queen {
                         if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break vertical_top
                         }
                     }
@@ -196,8 +187,6 @@ export class Queen {
                         if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break vertical_bottom
                         }
                     }
@@ -224,8 +213,6 @@ export class Queen {
                         if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break horizontal_left
                         }
                     }
@@ -250,8 +237,6 @@ export class Queen {
                             if (numberMatrix[r][c] == 22) {
                                 availMatrix[r][c] = -1
                                 paintAvailable()
-                                ruleState.check = true
-                                console.log("Check", ruleState.check)
                                 break horizontal_right
                             }
                     }
@@ -278,10 +263,11 @@ export class Queen {
                             paintAvailable()
                         }
                         else if (numberMatrix[r][c] == 22) {
-                            availMatrix[r][c] = -1
+                            availMatrix[r][c] = -11
+                            kingPosition.positionC = c
+                            kingPosition.positionR = r
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
+                            rule.check = true
                             break top_left_diagonal
                         }
                     }
@@ -308,8 +294,6 @@ export class Queen {
                         else if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break bottom_left_diagonal
                         }
                     }
@@ -334,10 +318,11 @@ export class Queen {
                             break top_right_diagonal
                         }  
                         else if (numberMatrix[r][c] == 22) {
-                            availMatrix[r][c] = -1
+                            availMatrix[r][c] = -11
+                            kingPosition.positionC = c
+                            kingPosition.positionR = r
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
+                            rule.check = true
                             break top_right_diagonal
                         } 
 
@@ -365,8 +350,6 @@ export class Queen {
                         else if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break bottom_right_diagonal
                         }
                     }
@@ -544,12 +527,12 @@ export class Queen {
     }
 }
 export class Bishop {
-    constructor(color, c, r, rule) {
+    constructor(color, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
-        this.rule = rule
     }
+
 
     // makes king white
     drawPiece() {
@@ -589,8 +572,6 @@ export class Bishop {
                         else if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break top_left_diagonal
                         }
                     }
@@ -617,8 +598,6 @@ export class Bishop {
                         else if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break bottom_left_diagonal
                         }
                     }
@@ -645,8 +624,6 @@ export class Bishop {
                         else if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break top_right_diagonal
                         } 
 
@@ -674,8 +651,6 @@ export class Bishop {
                         else if (numberMatrix[r][c] == 22) {
                             availMatrix[r][c] = -1
                             paintAvailable()
-                            ruleState.check = true
-                            console.log("Check", ruleState.check)
                             break bottom_right_diagonal
                         }
                     }
@@ -773,11 +748,10 @@ export class Bishop {
     } 
 }
 export class Knight {
-    constructor(color, c, r, rule) {
+    constructor(color, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
-        this.rule = rule
     }
 
     // makes king white
@@ -1014,10 +988,9 @@ export class Knight {
 
 }
 export class Rook {
-    constructor(color, c, r, rule) {
+    constructor(color, c, r) {
         this.colorPiece = color
         this.c = c
-        this.rule = rule
     }
 
     // makes king white
@@ -1233,11 +1206,10 @@ export class Rook {
     }
 }
 export class Pawn {
-    constructor(color, c, r, rule) {
+    constructor(color, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
-        this.rule = rule
     }
     // makes king white
     drawPiece() {
@@ -1318,8 +1290,6 @@ export class Pawn {
                             if(vj == 0 || vj == 6){
                                 availMatrix[r][c] = -1
                                 paintAvailable()
-                                ruleState.check = true
-                                console.log("Check", ruleState.check)
                             }
                         }
                     
@@ -1342,8 +1312,6 @@ export class Pawn {
                             if(vj == 0 || vj == 6){
                                 availMatrix[r][c] = -1
                                 paintAvailable()
-                                ruleState.check = true
-                                console.log("Check", ruleState.check)
                             }
                         }
                     }
@@ -1413,8 +1381,6 @@ export class Pawn {
                             if(vj == 0 || vj == 6){
                                 availMatrix[r][c] = -2
                                 paintAvailable()
-                                ruleState.check = true
-                                console.log("Check", ruleState.check)
                             }
                         }
                     }
@@ -1436,8 +1402,6 @@ export class Pawn {
                             if(vj == 0 || vj == 6){
                                 availMatrix[r][c] = -2
                                 paintAvailable()
-                                ruleState.check = true
-                                console.log("Check", ruleState.check)
                             }
                         }
                     }

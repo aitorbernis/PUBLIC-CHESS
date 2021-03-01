@@ -1,4 +1,4 @@
-import {King, Queen, Bishop, Knight, Rook, Pawn, ctx, cvs, sqSize, ruleState} from "./classes.js"
+import {King, Queen, Bishop, Knight, Rook, Pawn, ctx, cvs, sqSize} from "./classes.js"
 import {board} from "./board.js"
 import {drawPieces} from "./draw.js"
 
@@ -35,6 +35,8 @@ var pB5
 var pB6
 var pB7
 var pB8
+
+var piecesName = [kW, qW, bW1, bW2, knW1, knW2, rW1, rW2, pW1, pW2, pW3, pW4, pW5, pW6, pW7, pW8, kB, qB, bB1 ,bB2 ,knB1 ,knB2 ,rB1 ,rB2 ,pB1 ,pB2 ,pB3 ,pB4 ,pB5 ,pB6 ,pB7 ,pB8]
 
 // creates objects of every piece
 kW = new King("white")
@@ -76,11 +78,10 @@ pB8 = new Pawn("black")
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 // MAKE NAME AND NUMBER GAME ARRAY
 export var gameNameArray = []
-export var gameNumberArray = []
 
 // MAKE NAME MATRIX
 export var nameMatrix
-export function makeStartingMatrix() {
+export function makeNameStartingMatrix() {
     nameMatrix = [
         [rB1, knB1, bB1, qB, kB, bB2, knB2, rB2],      
         [pB1, pB2, pB3, pB4, pB5, pB6, pB7, pB8],
@@ -92,7 +93,7 @@ export function makeStartingMatrix() {
         [rW1, knW1, bW1, qW, kW, bW2, knW2, rW2]
     ]
 }
-// export function makeStartingMatrix() {
+// export function makeNameStartingMatrix() {
 //     nameMatrix = [
 //         [rB1, knB1, bB1, qB, kB, bB2, knB2, rB2],      
 //         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -105,16 +106,6 @@ export function makeStartingMatrix() {
 //     ]
 // }
 
-export function setRules() {
-    for (let c = 0; c < 8; c++) {
-        for (let r = 0; r < 8; r++){
-            if (gameNameArray[gameNameArray.length-1][r][c] != 0) {
-                gameNameArray[gameNameArray.length-1][r][c].rule = 0
-            }
-            
-        }
-    }
-}
 
 
 // MAKE NUMBER MATRIX
@@ -163,6 +154,7 @@ export function setPosition() {
     }
 }
 
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -180,16 +172,17 @@ function instantAvailMatrix() {
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-function paintSelectedPieceWhite(c, r) {
-    ctx.strokeStyle = "#0AC9CF"
+function paintSelectedPiece(c, r, pieceToMove) {
+    if (pieceToMove.colorPiece == "white") {
+        ctx.strokeStyle = "#0AC9CF"
+    }
+    else {
+        ctx.strokeStyle = "purple"
+    }
     ctx.lineWidth = 10
     ctx.strokeRect(c*sqSize, r*sqSize, sqSize, sqSize)
 }
-function paintSelectedPieceBlack(c, r) {
-    ctx.strokeStyle = "purple"
-    ctx.lineWidth = 10
-    ctx.strokeRect(c*sqSize, r*sqSize, sqSize, sqSize)
-}
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -197,29 +190,34 @@ function paintSelectedPieceBlack(c, r) {
 export var turn = 0
 export function startingFunction() {
     board()
-    makeStartingMatrix()
+    makeNameStartingMatrix()
     gameNameArray.push(nameMatrix) 
     setPosition()
-    setRules()
     makeNumberMatrix()
-    gameNumberArray.push(numberMatrix)
     instantAvailMatrix()
     drawPieces()
     clickFunction()
     turn = 1
 }
 
-
-export function newMoveFunction() {
-    board()
+function modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard) {
+    newNameMatrix[yPos][xPos] = 0
+    newNameMatrix[yBoard][xBoard] = pieceToMove 
+    gameNameArray.push(newNameMatrix)
     setPosition()
     makeNumberMatrix()
-    gameNumberArray.push(numberMatrix)
+}
+
+export function reDraw() {
+    board()
     instantAvailMatrix()
     drawPieces()
 }
 
-
+function reDrawNoAvail() {
+    board()
+    drawPieces()
+}
 
 export function clickFunction() {
     cvs.addEventListener('mousedown', function(e) {clickHandler(cvs, e)})
@@ -229,15 +227,74 @@ export function clickFunction() {
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
 export var newNameMatrix
+var availMatrixCheck
 var clickState = false
 
-var currAvailMatr = []
+export var checkSquaresAvail = []
+export var rule = {
+    check: false
+}
+
 var xPos = 0
 var yPos = 0
 var pieceToMove = 0
 
-function clickHandler(cvs, event) {
+export var kingPosition = {
+    positionC: 0,
+    positionR: 0
+}
 
+
+function whereIsKing(xBoard, yBoard) {
+    // same column, above, exact and under
+    if (kingPosition.positionC == xBoard) {
+        console.log("same column")
+        if (kingPosition.positionR == yBoard) {
+            console.log("same row")
+            console.log("exact same place")
+        }
+        else if (kingPosition.positionR < yBoard) {
+            console.log("above")
+        }
+        else if (kingPosition.positionR > yBoard) {
+            console.log("under")
+        }
+    }
+    // left columns, top diagonal, left, bot diagonal
+    else if (kingPosition.positionC < xBoard) {
+        console.log("left")
+        if (kingPosition.positionR == yBoard) {
+            console.log("same row")
+        }
+        else if (kingPosition.positionR < yBoard) {
+            console.log("top left diagonal")
+        }
+        else if (kingPosition.positionR > yBoard) {
+            console.log("bottom left diagonal")
+        }
+    }
+    else if (kingPosition.positionC > xBoard) {
+        console.log("right")
+        if (kingPosition.positionR == yBoard) {
+            console.log("same row")
+        }
+        else if (kingPosition.positionR < yBoard) {
+            console.log("top right diagonal")
+        }
+        else if (kingPosition.positionR > yBoard) {
+            console.log("bottom right diagonal")
+        }
+    }
+}
+
+
+function refreshSelectedPiece() {
+    pieceToMove = 0
+    xPos = 0
+    yPos = 0
+}
+
+function clickHandler(cvs, event) {
     newNameMatrix = gameNameArray[gameNameArray.length-1].map(a => Object.assign({}, a))
     const rect = cvs.getBoundingClientRect()
     var x = event.clientX - rect.left
@@ -259,34 +316,51 @@ function clickHandler(cvs, event) {
     }
 
     if (turn == 1) {
-        //click sobre pieza blanca en turno blancas y clickState falso
-        if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "white"){
-            // problema, fa una carrega abans de apretar la primera fitxa
-            newMoveFunction()
-            paintSelectedPieceWhite(xCanvas, yCanvas) // paint selected piece
-            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
-            clickState = true
+        if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
+            reDraw()
             pieceToMove = gameNameArray[gameNameArray.length-1][yBoard][xBoard]
             xPos = xBoard
             yPos = yBoard
+            paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail()
+            clickState = true
             return
         }
         else if (clickState == true) {
-            //console.log(currAvailMatr)
-            // console.log("cs true")
-            if (availMatrix[yBoard][xBoard] == 1 || availMatrix[yBoard][xBoard] == -1){
-                newNameMatrix[yPos][xPos] = 0
-                newNameMatrix[yBoard][xBoard] = pieceToMove
-                gameNameArray.push(newNameMatrix)
-                turn = turn * (-1)
-                newMoveFunction()
-                console.log("si")
-                console.log("Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard)
+            if (availMatrix[yBoard][xBoard] == 1 || availMatrix[yBoard][xBoard] == -1){ //if copy paste, change 1 and -1 to 2 and -2
+                instantAvailMatrix()
+                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
+                pieceToMove.checkAvail()
+                availMatrixCheck = availMatrix.map(a => Object.assign({}, a))
+                if (rule.check == true) {
+                    console.log(kingPosition)
+                    console.log(xBoard, yBoard)
+                    whereIsKing(xBoard, yBoard)
+                    
+                    
+                }
+                console.log(numberMatrix)
+                //let fe = numberMatrix.map( k => k.filter(e => e==0))
+                let fe = numberMatrix.map( function(item) {return item.map( function(item2) {return item2 == 0 ? 0 : 1})})
+
+                console.log(fe)
+                
+                console.log(availMatrix)
+                console.log(rule)
+
+                turn = turn * (-1) 
+                
+                console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                
+                reDrawNoAvail()
+                
+                refreshSelectedPiece()
+                
                 return
             }
             else {
                 clickState = false
-                newMoveFunction()
+                reDraw()
                 return
             }
 
@@ -295,147 +369,44 @@ function clickHandler(cvs, event) {
     }
     else if (turn == -1) {
         //click sobre pieza blanca en turno blancas y clickState falso
+        if (rule.check == true) {
+            console.log(availMatrixCheck)
+        }
         if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "black"){
-            newMoveFunction()
-            paintSelectedPieceBlack(xCanvas, yCanvas) // paint selected piece
-            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
-            clickState = true
+            console.log(rule)
+            // problema, fa una carrega abans de apretar la primera fitxa
+            reDraw()
             pieceToMove = gameNameArray[gameNameArray.length-1][yBoard][xBoard]
             xPos = xBoard
             yPos = yBoard
+            paintSelectedPiece(xCanvas, yCanvas, pieceToMove) // paint selected piece
+            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
+            clickState = true
             return
         }
         else if (clickState == true) {
             //console.log(currAvailMatr)
             // console.log("cs true")
             if (availMatrix[yBoard][xBoard] == 2 || availMatrix[yBoard][xBoard] == -2){
-                newNameMatrix[yPos][xPos] = 0
-                newNameMatrix[yBoard][xBoard] = pieceToMove
-                gameNameArray.push(newNameMatrix)
-                turn = turn * (-1)
-                newMoveFunction()
-                console.log("si")
-                console.log("Moved black piece from: ", xPos, yPos, " to: ", xBoard, yBoard)
+                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
+                console.log(rule)
+                turn = turn * (-1) 
+                console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                reDraw()
+                refreshSelectedPiece()
                 return
             }
             else {
                 clickState = false
-                newMoveFunction()
+                reDraw()
                 return
             }
+
         }
     }    
     return 
 }
 
-
-
-// function selectedPiece(cvs, event) {
-//     newNameMatrix = gameNameArray[gameNameArray.length-1].map(a => Object.assign({}, a))
-//     const rect = cvs.getBoundingClientRect()
-//     var x = event.clientX - rect.left
-//     var y = event.clientY - rect.top
-//     x = Math.floor(x/100) - 1
-//     y = Math.floor(y/100) - 1
-    
-//     console.log("Pressed square", x+1, y+1))
-    
-//     for (let c = 0; c < 8; c++){
-//         for (let r = 0; r < 8; r++) {
-//             if (c == x && r == y) {
-//                 if (gameNumberArray[gameNumberArray.length-1][y][x] != 0) {
-//                     if (turn == 1) {
-//                             if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
-//                                 paintSelectedPieceWhite(c+1, r+1)
-//                                 gameNameArray[gameNameArray.length-1][y][x].checkAvail()
-//                                 cvs.addEventListener('mousedown', function(e) {destinationPlace(cvs, e, x, y, gameNameArray)}, {once : true})
-                                
-
-//                             }
-//                             else if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
-//                                 clickFunction()
-//                                 return
-
-//                             }
-//                     }
-
-//                     else if (turn == -1) {
-//                         if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "black"){
-//                             paintSelectedPieceBlack(c+1, r+1)
-//                             gameNameArray[gameNameArray.length-1][y][x].checkAvail()
-//                             cvs.addEventListener('mousedown', function(e) {destinationPlace(cvs, e, x, y)}, {once : true})
-
-//                         }
-//                         else if (gameNameArray[gameNameArray.length-1][y][x].colorPiece == "white"){
-//                             clickFunction()
-//                             return
-
-//                         }
-//                     }
-//                 }
-//                 if (gameNumberArray[gameNumberArray.length-1][y][x] == 0) {
-//                     clickFunction()
-//                     return
-
-//                 }
-//             }
-//         }
-//     }
-// }
-
-// function destinationPlace(cvs, event, c, r) {
-//     const rect = cvs.getBoundingClientRect()
-//     var x = event.clientX - rect.left
-//     var y = event.clientY - rect.top
-//     x = Math.floor(x/100) - 1
-//     y = Math.floor(y/100) - 1
-//     console.log("Pressed square", x+1, y+1)
-//     if (turn == 1) {
-//         if (availMatrix[y][x] == 1 || availMatrix[y][x] == -1 ) {
-            
-//             var pieceToMove = gameNameArray[gameNameArray.length-1][r][c]
-//             newNameMatrix[r][c] = 0
-//             newNameMatrix[y][x] = pieceToMove
-//             gameNameArray.push(newNameMatrix)
-//             newMoveFunction()
-//             gameNumberArray.push(numberMatrix)
-//             newNameMatrix[y][x].checkAvail()
-//             console.log(gameNameArray)
-//             console.log(ruleState.check)
-//             turn = turn * (-1)
-//             cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
-    
-//             // console.log("Name Matrix", gameNameArray)
-//             // console.log("Number Matrix", gameNumberArray)
-//         }
-//         if (availMatrix[y][x] == 0) {
-//             newMoveFunction()
-    
-//         }
-//     }
-//     else if (turn == -1) {
-//         if (availMatrix[y][x] == 2 || availMatrix[y][x] == -2) {
-//             var pieceToMove = gameNameArray[gameNameArray.length-1][r][c]
-//             newNameMatrix[r][c] = 0
-//             newNameMatrix[y][x] = pieceToMove
-//             gameNameArray.push(newNameMatrix)
-//             newMoveFunction()
-//             gameNumberArray.push(numberMatrix)
-//             newNameMatrix[y][x].checkAvail()
-//             console.log(gameNameArray)
-//             turn = turn * (-1)
-//             cvs.addEventListener('mousedown', function(e) {selectedPiece(cvs, e)}, {once : true})
-    
-//             // console.log("Name Matrix", gameNameArray)
-//             // console.log("Number Matrix", gameNumberArray)
-//         }
-//         if (availMatrix[y][x] == 0) {
-//             newMoveFunction()
-    
-//         }
-//     }
-    
-// }
 
 
 

@@ -1,7 +1,7 @@
-import {newMoveFunction, startingFunction} from "./initiate.js" 
+import {reDraw, startingFunction} from "./initiate.js" 
 
 
 startingFunction()
 
-newMoveFunction()
+reDraw()
 

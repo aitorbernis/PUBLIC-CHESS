@@ -333,19 +333,31 @@ function clickHandler(cvs, event) {
                 pieceToMove.checkAvail()
                 availMatrixCheck = availMatrix.map(a => Object.assign({}, a))
                 if (rule.check == true) {
-                    console.log(kingPosition)
-                    console.log(xBoard, yBoard)
+                    console.log("kingPosition", kingPosition)
+                    console.log("x/yBoard", xBoard, yBoard)
                     whereIsKing(xBoard, yBoard)
                     
                     
                 }
-                console.log(numberMatrix)
+                console.log(availMatrixCheck)
                 //let fe = numberMatrix.map( k => k.filter(e => e==0))
-                let fe = numberMatrix.map( function(item) {return item.map( function(item2) {return item2 == 0 ? 0 : 1})})
+                //
+                var availPos = [[4,3],[6,3],[7,3]]
+                let fe = availMatrixCheck.map((item,r) => {
+                    console.log("gg")
+                    console.log(typeof(item))
+                    for (let [c,item2] in item){
+                        console.log(c)
+                        
+                        return [c,r] in availPos ? 1 : 0
+                    }
 
+                    })
+
+                console.log("FE")
                 console.log(fe)
                 
-                console.log(availMatrix)
+                console.log(availMatrixCheck)
                 console.log(rule)
 
                 turn = turn * (-1) 

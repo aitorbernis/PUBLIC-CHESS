@@ -241,7 +241,7 @@ export function clickFunction() {
     cvs.addEventListener('mousedown', function(e) {clickHandler(cvs, e)})
 }
 export var newNameMatrix
-var checkMatrix
+export var checkMatrix
 var clickState = false
 
 export var checkSquaresAvail = []
@@ -285,6 +285,7 @@ function whereIsKing(xBoard, yBoard, matrixToCheck, matrixToCreate, pieceR, piec
             instantAvailMatrix()
             topLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor)
             checkMatrix =  matrixToCreate.map(a => Object.assign({}, a))
+
             console.log(checkMatrix)
 
         }
@@ -328,6 +329,7 @@ function clickHandler(cvs, event) {
     
     console.log("Canvas Pressed Square", xCanvas, yCanvas)
     console.log("Board Pressed Square", xBoard, yBoard)
+    console.log(rule.check)
 
     // if pressed off the board, just return (out of board, so use CANVAS)
     if (xCanvas == 0 || xCanvas == 9 || yCanvas == 0 || yCanvas == 9) {
@@ -336,14 +338,27 @@ function clickHandler(cvs, event) {
 
     if (turn == 1) {
         if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
-            reDraw()
-            pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
-            xPos = xBoard
-            yPos = yBoard
-            paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-            gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
-            clickState = true
-            return
+            if (rule.check == true) {
+                reDraw()
+                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+                xPos = xBoard
+                yPos = yBoard
+                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
+                clickState = true
+                return
+            }
+            else {
+                reDraw()
+                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+                xPos = xBoard
+                yPos = yBoard
+                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+                clickState = true
+                return
+            }
+            
         }
         else if (clickState == true) {
             if (availMatrix[yBoard][xBoard] == 1 || availMatrix[yBoard][xBoard] == -1){ //if copy paste, change 1 and -1 to 2 and -2
@@ -380,20 +395,27 @@ function clickHandler(cvs, event) {
     }
     else if (turn == -1) {
         //click sobre pieza blanca en turno blancas y clickState falso
-        if (rule.check == true) {
-            // console.log(availMatrixCheck)
-        }
         if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "black"){
-            // console.log(rule)
-            // problema, fa una carrega abans de apretar la primera fitxa
-            reDraw()
-            pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
-            xPos = xBoard
-            yPos = yBoard
-            paintSelectedPiece(xCanvas, yCanvas, pieceToMove) // paint selected piece
-            gameArray[gameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
-            clickState = true
-            return
+            if (rule.check == true) {
+                reDraw()
+                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+                xPos = xBoard
+                yPos = yBoard
+                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
+                clickState = true
+                return
+            }
+            else {
+                reDraw()
+                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+                xPos = xBoard
+                yPos = yBoard
+                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+                clickState = true
+                return
+            }
         }
         else if (clickState == true) {
             //console.log(currAvailMatr)
@@ -405,6 +427,7 @@ function clickHandler(cvs, event) {
                 console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
                 reDraw()
                 refreshSelectedPiece()
+                rule.check = false
                 return
             }
             else {

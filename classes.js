@@ -1,4 +1,4 @@
-import {numberMatrix, availMatrix, rule, kingPosition} from "./initiate.js"
+import {numberMatrix, availMatrix, checkMatrix} from "./initiate.js"
 import {verticalTop, verticalBottom, horizontalLeft, horizontalRight, topLeftDiagonal, topRightDiagonal, bottomRightDiagonal, bottomLeftDiagonal
     , kingMovements, knightMovements, pawnMovements} from "./pieceMovement.js"
 export const cvs = document.getElementById("chessBoard")
@@ -218,7 +218,8 @@ export class Pawn {
         paintAvailable()
     }
     checkAvailCheck() {
-        pawnMovements(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
+        pawnMovements(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
+        paintAvailable()
     }
 }
 

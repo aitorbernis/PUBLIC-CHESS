@@ -421,7 +421,6 @@ export function kingMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
     } 
 }
 
-
 // KNIGHT
 
 export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
@@ -665,15 +664,26 @@ export function pawnMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
         for (let r = pieceR; r < pieceR + 3; r++){
             if (pieceR == 1) {
                 if (r == (pieceR+1) || r == (pieceR+2)) {  
-                    if (matrixToCheck[r][pieceC] == 0) {
-                        matrixToCreate[r][pieceC] = 2
+                    if (rule.check == true) {
+                        if (matrixToCheck[r][pieceC] == 1) {
+                            matrixToCreate[r][pieceC] = 2
+                        }
+                        else if (matrixToCheck[r][pieceC] == 0) {
+                            return 
+                        }
                     }
-                    else if (matrixToCheck[r][pieceC] == 2) {
-                        return 
+                    else {
+                        if (matrixToCheck[r][pieceC] == 0) {
+                            matrixToCreate[r][pieceC] = 2
+                        }
+                        else if (matrixToCheck[r][pieceC] == 2) {
+                            return 
+                        }
+                        else if (matrixToCheck[r][pieceC] == 1) {
+                            return 
+                        }
                     }
-                    else if (matrixToCheck[r][pieceC] == 1) {
-                        return 
-                    }
+                    
                 }
             }
             else {

@@ -1,6 +1,6 @@
 import {kingPosition, rule} from "./initiate.js"
 // HERE WE HAVE THE FUNCTIONS TO CHECK THE AVAILABLE SQUARES AROUND A PIECE
-
+var vj = 0
 // VERTICAL AND HORIZONTAL
 
 export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
@@ -601,10 +601,11 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
 
 // PAWN
 
-export function pawnMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
+export function pawnInFront(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
     if (pieceColor == "white") {
         for (let r = pieceR; r > pieceR - 3; r--){
             if (pieceR == 6) {
+                // if at starting position
                 if (r == (pieceR-1) || r == (pieceR-2)) {  
                     if (matrixToCheck[r][pieceC] == 0) {
                         matrixToCreate[r][pieceC] = 1
@@ -631,59 +632,21 @@ export function pawnMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                 }
             }
         }
-        for (let c = 0; c < 8; c++) {
-            let a = pieceC - c
-            for (let r = 0; r < 8; r++){
-                let b = pieceR - r
-                if (a == 1 && b == 1){
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                    }
-                    else if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -1
-                    }
-                }
-            }
-        }
-        for (let c = 0; c < 8; c++) {
-            let a = pieceC - c
-            for (let r = 0; r < 8; r++){
-                let b = pieceR - r
-                if (a == -1 && b == 1){
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                    }
-                    else if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -1
-                    }
-                }
-            }
-        }
     }
     else if (pieceColor == "black") {
         for (let r = pieceR; r < pieceR + 3; r++){
             if (pieceR == 1) {
+                // if at starting position
                 if (r == (pieceR+1) || r == (pieceR+2)) {  
-                    if (rule.check == true) {
-                        if (matrixToCheck[r][pieceC] == 1) {
-                            matrixToCreate[r][pieceC] = 2
-                        }
-                        else if (matrixToCheck[r][pieceC] == 0) {
-                            return 
-                        }
+                    if (matrixToCheck[r][pieceC] == 0) {
+                        matrixToCreate[r][pieceC] = 2
                     }
-                    else {
-                        if (matrixToCheck[r][pieceC] == 0) {
-                            matrixToCreate[r][pieceC] = 2
-                        }
-                        else if (matrixToCheck[r][pieceC] == 2) {
-                            return 
-                        }
-                        else if (matrixToCheck[r][pieceC] == 1) {
-                            return 
-                        }
+                    else if (matrixToCheck[r][pieceC] == 2) {
+                        return 
                     }
-                    
+                    else if (matrixToCheck[r][pieceC] == 1) {
+                        return 
+                    }
                 }
             }
             else {
@@ -700,6 +663,50 @@ export function pawnMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                 }
             }
         }
+    }
+}
+export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
+    if (pieceColor == "white") {
+        // checks top-left diagonal
+        for (let c = 0; c < 8; c++) {
+            let a = pieceC - c
+            for (let r = 0; r < 8; r++){
+                let b = pieceR - r
+                if (a == 1 && b == 1){
+                    if (matrixToCheck[r][c] == 2) {
+                        matrixToCreate[r][c] = -1
+                    }
+                    else if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -1
+                        ruleState.check = true
+                        console.log("Check", ruleState.check)
+                    }
+                }
+                
+            }
+        }
+        
+        // checks top-right diagonal
+        for (let c = 0; c < 8; c++) {
+            let a = pieceC - c
+            for (let r = 0; r < 8; r++){
+                let b = pieceR - r
+                if (a == -1 && b == 1){
+                    if (matrixToCheck[r][c] == 2) {
+                        matrixToCreate[r][c] = -1
+                    }
+                    else if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -1
+                        ruleState.check = true
+                        console.log("Check", ruleState.check)
+                    }
+                }
+            }
+        }
+    }
+
+    else if (pieceColor == "black") {
+        // checks bottom-left diagonal
         for (let c = 0; c < 8; c++) {
             let a = pieceC - c
             for (let r = 0; r < 8; r++){
@@ -710,10 +717,13 @@ export function pawnMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                     }
                     else if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -2
+                        ruleState.check = true
+                        console.log("Check", ruleState.check)
                     }
                 }
             }
         }
+        // checks bottom-right diagonal
         for (let c = 0; c < 8; c++) {
             let a = pieceC - c
             for (let r = 0; r < 8; r++){
@@ -724,6 +734,8 @@ export function pawnMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                     }
                     else if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -2
+                        ruleState.check = true
+                        console.log("Check", ruleState.check)
                     }
                 }
             }

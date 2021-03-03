@@ -1,6 +1,6 @@
 import {King, Queen, Bishop, Knight, Rook, Pawn, ctx, cvs, sqSize} from "./classes.js"
 import {verticalTop, verticalBottom, horizontalLeft, horizontalRight, topLeftDiagonal, topRightDiagonal, bottomRightDiagonal, bottomLeftDiagonal
-    , kingMovements, knightMovements, pawnMovements} from "./pieceMovement.js"
+    , kingMovements, knightMovements, pawnInFront} from "./pieceMovement.js"
 import {board} from "./board.js"
 import {drawPieces} from "./draw.js"
 
@@ -315,6 +315,7 @@ function refreshSelectedPiece() {
 }
 
 function clickHandler(cvs, event) {
+    // CREATE A COPY OF THE LAST NAME MATRIX
     newNameMatrix = gameArray[gameArray.length-1].map(a => Object.assign({}, a))
     const rect = cvs.getBoundingClientRect()
     var x = event.clientX - rect.left
@@ -327,28 +328,29 @@ function clickHandler(cvs, event) {
     var xBoard = Math.floor(x/100) - 1
     var yBoard = Math.floor(y/100) - 1
     
+    console.log("|||||||||||||||||||||||||||||||||")
     console.log("Canvas Pressed Square", xCanvas, yCanvas)
     console.log("Board Pressed Square", xBoard, yBoard)
-    console.log(rule.check)
+    console.log("|||||||||||||||||||||||||||||||||---------")
 
-    // if pressed off the board, just return (out of board, so use CANVAS)
+    // if pressed off the board, just return (out of board, so use x/yCANVAS)
     if (xCanvas == 0 || xCanvas == 9 || yCanvas == 0 || yCanvas == 9) {
         return
     }
 
     if (turn == 1) {
         if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
-            if (rule.check == true) {
-                reDraw()
-                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
-                xPos = xBoard
-                yPos = yBoard
-                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-                gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
-                clickState = true
-                return
-            }
-            else {
+            // if (rule.check == true) {
+            //     reDraw()
+            //     pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+            //     xPos = xBoard
+            //     yPos = yBoard
+            //     paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+            //     gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
+            //     clickState = true
+            //     return
+            // }
+            // else {
                 reDraw()
                 pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
                 xPos = xBoard
@@ -356,8 +358,9 @@ function clickHandler(cvs, event) {
                 paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
                 gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
                 clickState = true
+                console.log("White Piece Selected")
                 return
-            }
+            // }
             
         }
         else if (clickState == true) {
@@ -365,18 +368,12 @@ function clickHandler(cvs, event) {
                 instantAvailMatrix()
                 modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
                 pieceToMove.checkAvail()
-                if (rule.check == true) {
-                    // console.log("kingPosition", kingPosition)
-                    // console.log("x/yBoard", xBoard, yBoard)
-                    whereIsKing(xBoard, yBoard,  gameArray[gameArray.length-1], availMatrix, yBoard, xBoard, gameArray[gameArray.length-1][yBoard][xBoard].colorPiece)
-                    console.log(checkMatrix)
-                    
-                    
-                }
                 
                 turn = turn * (-1) 
                 
-                console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                console.log("---- Moved WHITE piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                console.log("-----------------------------------")
+                console.log("NEW MOVE")
                 
                 reDrawNoAvail()
                 
@@ -394,19 +391,18 @@ function clickHandler(cvs, event) {
         
     }
     else if (turn == -1) {
-        //click sobre pieza blanca en turno blancas y clickState falso
-        if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "black"){
-            if (rule.check == true) {
-                reDraw()
-                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
-                xPos = xBoard
-                yPos = yBoard
-                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-                gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
-                clickState = true
-                return
-            }
-            else {
+        if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "black"){ //if copy paste, change white to black
+            // if (rule.check == true) {
+            //     reDraw()
+            //     pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+            //     xPos = xBoard
+            //     yPos = yBoard
+            //     paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+            //     gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
+            //     clickState = true
+            //     return
+            // }
+            // else {
                 reDraw()
                 pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
                 xPos = xBoard
@@ -414,20 +410,27 @@ function clickHandler(cvs, event) {
                 paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
                 gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
                 clickState = true
+                console.log("White Piece Selected")
                 return
-            }
+            // }
+            
         }
         else if (clickState == true) {
-            //console.log(currAvailMatr)
-            // console.log("cs true")
-            if (availMatrix[yBoard][xBoard] == 2 || availMatrix[yBoard][xBoard] == -2){
+            if (availMatrix[yBoard][xBoard] == 2 || availMatrix[yBoard][xBoard] == -2){ //if copy paste, change 1 and -1 to 2 and -2
+                instantAvailMatrix()
                 modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
-                // console.log(rule)
+                pieceToMove.checkAvail()
+                
                 turn = turn * (-1) 
-                console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
-                reDraw()
+                
+                console.log("---- Moved WHITE piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                console.log("-----------------------------------")
+                console.log("NEW MOVE")
+                
+                reDrawNoAvail()
+                
                 refreshSelectedPiece()
-                rule.check = false
+                
                 return
             }
             else {
@@ -438,16 +441,4 @@ function clickHandler(cvs, event) {
 
         }
     }    
-    return 
 }
-
-
-
-
-
-
-
-
-
-
-

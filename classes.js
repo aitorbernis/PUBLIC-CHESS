@@ -1,6 +1,6 @@
 import {numberMatrix, availMatrix, checkMatrix} from "./initiate.js"
 import {verticalTop, verticalBottom, horizontalLeft, horizontalRight, topLeftDiagonal, topRightDiagonal, bottomRightDiagonal, bottomLeftDiagonal
-    , kingMovements, knightMovements, pawnMovements} from "./pieceMovement.js"
+    , kingMovements, knightMovements, pawnInFront, pawnDiagonals} from "./pieceMovement.js"
 export const cvs = document.getElementById("chessBoard")
 export const ctx = cvs.getContext("2d")
 export const sqSize = 100
@@ -214,11 +214,12 @@ export class Pawn {
     }
     // position checker for WHITE pawns
     checkAvail() {
-        pawnMovements(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
+        pawnInFront(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
+        pawnDiagonals(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         paintAvailable()
     }
     checkAvailCheck() {
-        pawnMovements(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
+        pawnInFront(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
         paintAvailable()
     }
 }

@@ -36,7 +36,7 @@
         matrix (first piece configuration on board by number)
 
 2) draw.js
-    - Import gameNameArray from recurrent.js
+    - Import gameArray from recurrent.js
     - Go throught the last nameMatrix and draw every piece at its position
 
 how to git (Terminal) :    

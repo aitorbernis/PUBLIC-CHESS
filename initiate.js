@@ -1,4 +1,6 @@
 import {King, Queen, Bishop, Knight, Rook, Pawn, ctx, cvs, sqSize} from "./classes.js"
+import {verticalTop, verticalBottom, horizontalLeft, horizontalRight, topLeftDiagonal, topRightDiagonal, bottomRightDiagonal, bottomLeftDiagonal
+    , kingMovements, knightMovements, pawnMovements} from "./pieceMovement.js"
 import {board} from "./board.js"
 import {drawPieces} from "./draw.js"
 
@@ -36,7 +38,6 @@ var pB6
 var pB7
 var pB8
 
-var piecesName = [kW, qW, bW1, bW2, knW1, knW2, rW1, rW2, pW1, pW2, pW3, pW4, pW5, pW6, pW7, pW8, kB, qB, bB1 ,bB2 ,knB1 ,knB2 ,rB1 ,rB2 ,pB1 ,pB2 ,pB3 ,pB4 ,pB5 ,pB6 ,pB7 ,pB8]
 
 // creates objects of every piece
 kW = new King("white")
@@ -77,7 +78,7 @@ pB8 = new Pawn("black")
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 // MAKE NAME AND NUMBER GAME ARRAY
-export var gameNameArray = []
+export var gameArray = []
 
 // MAKE NAME MATRIX
 export var nameMatrix
@@ -114,9 +115,9 @@ export function makeNumberMatrix() {
     for (let c = 0; c < 8; c++) {
         numberMatrix[c] = []
         for (let r = 0; r < 8; r++){
-            if (gameNameArray[gameNameArray.length-1][c][r] != 0) {
-                if (gameNameArray[gameNameArray.length-1][c][r].colorPiece == "white"){
-                    if (gameNameArray[gameNameArray.length-1][c][r] == kW) {
+            if (gameArray[gameArray.length-1][c][r] != 0) {
+                if (gameArray[gameArray.length-1][c][r].colorPiece == "white"){
+                    if (gameArray[gameArray.length-1][c][r] == kW) {
                         numberMatrix[c][r] = 11
                     }
                     else {
@@ -125,8 +126,8 @@ export function makeNumberMatrix() {
                     
                     
                 }
-                if (gameNameArray[gameNameArray.length-1][c][r].colorPiece == "black"){
-                    if (gameNameArray[gameNameArray.length-1][c][r] == kB) {
+                if (gameArray[gameArray.length-1][c][r].colorPiece == "black"){
+                    if (gameArray[gameArray.length-1][c][r] == kB) {
                         numberMatrix[c][r] = 22
                     }
                     else {
@@ -134,7 +135,7 @@ export function makeNumberMatrix() {
                     }
                 }
             }
-            if (gameNameArray[gameNameArray.length-1][c][r] == 0) {
+            if (gameArray[gameArray.length-1][c][r] == 0) {
                 numberMatrix[c][r] = 0
             }
         }
@@ -145,9 +146,9 @@ export function makeNumberMatrix() {
 export function setPosition() {
     for (let c = 0; c < 8; c++) {
         for (let r = 0; r < 8; r++){
-            if (gameNameArray[gameNameArray.length-1][r][c] != 0) {
-                gameNameArray[gameNameArray.length-1][r][c].c = c
-                gameNameArray[gameNameArray.length-1][r][c].r = r
+            if (gameArray[gameArray.length-1][r][c] != 0) {
+                gameArray[gameArray.length-1][r][c].c = c
+                gameArray[gameArray.length-1][r][c].r = r
             }
             
         }
@@ -186,27 +187,40 @@ function paintSelectedPiece(c, r, pieceToMove) {
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------THE GAME ENGINE STARTS HERE------------------------------------------------------------------------
 
 export var turn = 0
+
+//  ONLY HAPPENS ONE, TO START THE GAME
 export function startingFunction() {
+    // DRAWS BOARD
     board()
+    // MAKES NAME MATRIX AND PUSHES IT INTO GAME ARRAY
     makeNameStartingMatrix()
-    gameNameArray.push(nameMatrix) 
+    gameArray.push(nameMatrix) 
+    // SETS PIECES THIS.C/R FROM NAME MATRIX
     setPosition()
+    // MAKES NUMBER MATRIX FROM NAME MATRIX
     makeNumberMatrix()
+    // CREATES A AVAIL MATRIX FULL OF 0
     instantAvailMatrix()
+    // WE DRAW EACH PIECE AT ITS PLACE
     drawPieces()
+    // FUNCTION THAT CREATES THE PIECES MOVEMENTS
     clickFunction()
+    // WHITE STARTS
     turn = 1
 }
 
+// THIS FUNCTION TAKES THE NEW MATRIX, SETS A 0 AT ITS FORMER POSITION, AND SETS THE PIECE AT IT'S DESTINATION, THEN PUSH MATRIX INTO ARRAY, SET THISC/R AND MAKE NUMBER MATRIX
 function modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard) {
     newNameMatrix[yPos][xPos] = 0
     newNameMatrix[yBoard][xBoard] = pieceToMove 
-    gameNameArray.push(newNameMatrix)
+    gameArray.push(newNameMatrix)
     setPosition()
     makeNumberMatrix()
 }
+
 
 export function reDraw() {
     board()
@@ -219,15 +233,15 @@ function reDrawNoAvail() {
     drawPieces()
 }
 
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
 export function clickFunction() {
     cvs.addEventListener('mousedown', function(e) {clickHandler(cvs, e)})
 }
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------------------------------------------
-
 export var newNameMatrix
-var availMatrixCheck
+var checkMatrix
 var clickState = false
 
 export var checkSquaresAvail = []
@@ -245,7 +259,7 @@ export var kingPosition = {
 }
 
 
-function whereIsKing(xBoard, yBoard) {
+function whereIsKing(xBoard, yBoard, matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
     // same column, above, exact and under
     if (kingPosition.positionC == xBoard) {
         console.log("same column")
@@ -268,6 +282,11 @@ function whereIsKing(xBoard, yBoard) {
         }
         else if (kingPosition.positionR < yBoard) {
             console.log("top left diagonal")
+            instantAvailMatrix()
+            topLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor)
+            checkMatrix =  matrixToCreate.map(a => Object.assign({}, a))
+            console.log(checkMatrix)
+
         }
         else if (kingPosition.positionR > yBoard) {
             console.log("bottom left diagonal")
@@ -295,7 +314,7 @@ function refreshSelectedPiece() {
 }
 
 function clickHandler(cvs, event) {
-    newNameMatrix = gameNameArray[gameNameArray.length-1].map(a => Object.assign({}, a))
+    newNameMatrix = gameArray[gameArray.length-1].map(a => Object.assign({}, a))
     const rect = cvs.getBoundingClientRect()
     var x = event.clientX - rect.left
     var y = event.clientY - rect.top
@@ -316,13 +335,13 @@ function clickHandler(cvs, event) {
     }
 
     if (turn == 1) {
-        if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
+        if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
             reDraw()
-            pieceToMove = gameNameArray[gameNameArray.length-1][yBoard][xBoard]
+            pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
             xPos = xBoard
             yPos = yBoard
             paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail()
+            gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
             clickState = true
             return
         }
@@ -331,35 +350,15 @@ function clickHandler(cvs, event) {
                 instantAvailMatrix()
                 modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
                 pieceToMove.checkAvail()
-                availMatrixCheck = availMatrix.map(a => Object.assign({}, a))
                 if (rule.check == true) {
-                    console.log("kingPosition", kingPosition)
-                    console.log("x/yBoard", xBoard, yBoard)
-                    whereIsKing(xBoard, yBoard)
+                    // console.log("kingPosition", kingPosition)
+                    // console.log("x/yBoard", xBoard, yBoard)
+                    whereIsKing(xBoard, yBoard,  gameArray[gameArray.length-1], availMatrix, yBoard, xBoard, gameArray[gameArray.length-1][yBoard][xBoard].colorPiece)
+                    console.log(checkMatrix)
                     
                     
                 }
-                console.log(availMatrixCheck)
-                //let fe = numberMatrix.map( k => k.filter(e => e==0))
-                //
-                var availPos = [[4,3],[6,3],[7,3]]
-                let fe = availMatrixCheck.map((item,r) => {
-                    console.log("gg")
-                    console.log(typeof(item))
-                    for (let [c,item2] in item){
-                        console.log(c)
-                        
-                        return [c,r] in availPos ? 1 : 0
-                    }
-
-                    })
-
-                console.log("FE")
-                console.log(fe)
                 
-                console.log(availMatrixCheck)
-                console.log(rule)
-
                 turn = turn * (-1) 
                 
                 console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
@@ -382,17 +381,17 @@ function clickHandler(cvs, event) {
     else if (turn == -1) {
         //click sobre pieza blanca en turno blancas y clickState falso
         if (rule.check == true) {
-            console.log(availMatrixCheck)
+            // console.log(availMatrixCheck)
         }
-        if (gameNameArray[gameNameArray.length-1][yBoard][xBoard].colorPiece == "black"){
-            console.log(rule)
+        if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "black"){
+            // console.log(rule)
             // problema, fa una carrega abans de apretar la primera fitxa
             reDraw()
-            pieceToMove = gameNameArray[gameNameArray.length-1][yBoard][xBoard]
+            pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
             xPos = xBoard
             yPos = yBoard
             paintSelectedPiece(xCanvas, yCanvas, pieceToMove) // paint selected piece
-            gameNameArray[gameNameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
+            gameArray[gameArray.length-1][yBoard][xBoard].checkAvail() // check available positions
             clickState = true
             return
         }
@@ -401,7 +400,7 @@ function clickHandler(cvs, event) {
             // console.log("cs true")
             if (availMatrix[yBoard][xBoard] == 2 || availMatrix[yBoard][xBoard] == -2){
                 modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
-                console.log(rule)
+                // console.log(rule)
                 turn = turn * (-1) 
                 console.log("---- Moved white piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
                 reDraw()

@@ -34,13 +34,10 @@ function paintAvailable() {
             if (availMatrix[r][c] == 1) {
                 colorSqWhite(c, r)
             }
-            else if (availMatrix[r][c] == -1) {
-                colorKill(c, r)
-            }
             else if (availMatrix[r][c] == 2) {
                 colorSqBlack(c, r)
             }
-            else if (availMatrix[r][c] == -2) {
+            else if (availMatrix[r][c] == -1 || availMatrix[r][c] == -2 || availMatrix[r][c] == -11 || availMatrix[r][c] == -22) {
                 colorKill(c, r)
             }
         }

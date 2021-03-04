@@ -11,14 +11,10 @@ export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    if (matrixToCheck[r][c] == 1) {
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -1
                         return
                     }
@@ -33,10 +29,10 @@ export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
-                    if (matrixToCheck[r][c] == 2) {
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 1) {
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -2
                         return
                     }
@@ -51,17 +47,13 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
         for (let c = 0; c < 8; c++){
             for( let r = (pieceR+1); r < 8; r++){
                 if (c == pieceC){
-                    if (matrixToCheck[r][c] == 0){
+                    if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    if (matrixToCheck[r][c] == 1) {
-                        return 
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -1
                         return
                     }
@@ -73,13 +65,13 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
         for (let c = 0; c < 8; c++){
             for( let r = (pieceR+1); r < 8; r++){
                 if (c == pieceC){
-                    if (matrixToCheck[r][c] == 0){
+                    if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
-                    if (matrixToCheck[r][c] == 2) {
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 1) {
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -2
                         return
                     }
@@ -97,14 +89,10 @@ export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    if (matrixToCheck[r][c] == 1) {
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -1
                         return
                     }
@@ -116,16 +104,16 @@ export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
         for (let c = (pieceC - 1); c >= 0; c--) {
             for (let r = 0; r < 8; r++) {
                 if (r == pieceR) { 
-                        if (matrixToCheck[r][c] == 0) {
-                            matrixToCreate[r][c] = 2
-                        }
-                        if (matrixToCheck[r][c] == 2) {
-                            return
-                        }
-                        if (matrixToCheck[r][c] == 1) {
-                            matrixToCreate[r][c] = -2
-                            return
-                        }
+                    if (matrixToCheck[r][c] == 0) {
+                        matrixToCreate[r][c] = 2
+                    }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -2
+                        return
+                    }
                 }
             }
         }
@@ -137,20 +125,16 @@ export function horizontalRight(matrixToCheck, matrixToCreate, pieceR, pieceC, p
         for (let c = (pieceC + 1); c < 8; c++) {
             for (let r = 0; r < 8; r++) {
                 if (r == pieceR) { 
-                        if (matrixToCheck[r][c] == 0) {
-                            matrixToCreate[r][c] = 1
-                        }
-                        if (matrixToCheck[r][c] == 1) {
-                            return
-                        }
-                        if (matrixToCheck[r][c] == 2) {
-                            matrixToCreate[r][c] = -1
-                            return
-                        }
-                        if (matrixToCheck[r][c] == 22) {
-                            matrixToCreate[r][c] = -1
-                            return
-                        }
+                    if (matrixToCheck[r][c] == 0) {
+                        matrixToCreate[r][c] = 1
+                    }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -1
+                        return
+                    }
                 }
             }
         }
@@ -159,16 +143,16 @@ export function horizontalRight(matrixToCheck, matrixToCreate, pieceR, pieceC, p
         for (let c = (pieceC + 1); c < 8; c++) {
             for (let r = 0; r < 8; r++) {
                 if (r == pieceR) { 
-                        if (matrixToCheck[r][c] == 0) {
-                            matrixToCreate[r][c] = 2
-                        }
-                        if (matrixToCheck[r][c] == 2) {
-                            return
-                        }
-                        if (matrixToCheck[r][c] == 1) {
-                            matrixToCreate[r][c] = -2
-                            return
-                        }
+                    if (matrixToCheck[r][c] == 0) {
+                        matrixToCreate[r][c] = 2
+                    }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -2
+                        return
+                    }
                 }
             }
         }
@@ -184,18 +168,18 @@ export function topLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, p
             for (let r = (pieceR-1); r >= 0; r--){
                 let b = pieceR - r
                 if (a == b){
-                    if (matrixToCheck[r][c] == 1){
-                        return 
-                    }
-                    else if (matrixToCheck[r][c] == 2){
-                        matrixToCreate[r][c] = -1
-                        return 
-                    }
-                    else if (matrixToCheck[r][c] == 0) {
+                    if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    else if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 2) {
+                        matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -1
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -211,18 +195,18 @@ export function topLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, p
             for (let r = (pieceR-1); r >= 0; r--){
                 let b = pieceR - r
                 if (a == b){
-                    if (matrixToCheck[r][c] == 1){
-                        matrixToCreate[r][c] = -2
-                        return 
-                    }
-                    else if (matrixToCheck[r][c] == 2){
-                        return 
-                    }
-                    else if (matrixToCheck[r][c] == 0) {
+                    if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
-                    else if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -11
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 1) {
+                        matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -2
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -244,15 +228,15 @@ export function topRightDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, 
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    if (matrixToCheck[r][c] == 1) {
-                        return 
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
-                        return 
-                    }  
-                    else if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -1
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -272,13 +256,20 @@ export function topRightDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, 
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
-                    if (matrixToCheck[r][c] == 2) {
-                        return 
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -2
+                        kingPosition.positionC = c
+                        kingPosition.positionR = r
+                        rule.check = true
                         return 
-                    }   
+                    }
 
                 }
             }
@@ -296,15 +287,18 @@ export function bottomLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    if (matrixToCheck[r][c] == 1) {
-                        return 
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
-                        return 
+                        return
                     }
-                    else if (matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -1
+                        kingPosition.positionC = c
+                        kingPosition.positionR = r
+                        rule.check = true
                         return 
                     }
                 }
@@ -320,11 +314,18 @@ export function bottomLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
-                    if (matrixToCheck[r][c] == 2) {
-                        return 
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -2
+                        kingPosition.positionC = c
+                        kingPosition.positionR = r
+                        rule.check = true
                         return 
                     }
                 }
@@ -343,15 +344,18 @@ export function bottomRightDiagonal(matrixToCheck, matrixToCreate, pieceR, piece
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
-                    if (matrixToCheck[r][c] == 1) {
-                        return 
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
-                        return 
+                        return
                     }
-                    else if (matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -1
+                        kingPosition.positionC = c
+                        kingPosition.positionR = r
+                        rule.check = true
                         return 
                     }
                 }
@@ -367,11 +371,18 @@ export function bottomRightDiagonal(matrixToCheck, matrixToCreate, pieceR, piece
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
-                    if (matrixToCheck[r][c] == 2) {
-                        return 
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -2
+                        kingPosition.positionC = c
+                        kingPosition.positionR = r
+                        rule.check = true
                         return 
                     }
                 }
@@ -610,10 +621,7 @@ export function pawnInFront(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][pieceC] == 0) {
                         matrixToCreate[r][pieceC] = 1
                     }
-                    else if (matrixToCheck[r][pieceC] == 1) {
-                        return 
-                    }
-                    else if (matrixToCheck[r][pieceC] == 2) {
+                    if (matrixToCheck[r][pieceC] == 1 || matrixToCheck[r][pieceC] == 2) {
                         return 
                     }
                 }
@@ -623,12 +631,9 @@ export function pawnInFront(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][pieceC] == 0) {
                         matrixToCreate[r][pieceC] = 1
                     }
-                    else if (matrixToCheck[r][pieceC] == 1) {
+                    if (matrixToCheck[r][pieceC] == 1 || matrixToCheck[r][pieceC] == 2) {
                         return 
                     }
-                    else if (matrixToCheck[r][pieceC] == 2) {
-                        return 
-                    }  
                 }
             }
         }
@@ -641,10 +646,7 @@ export function pawnInFront(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][pieceC] == 0) {
                         matrixToCreate[r][pieceC] = 2
                     }
-                    else if (matrixToCheck[r][pieceC] == 2) {
-                        return 
-                    }
-                    else if (matrixToCheck[r][pieceC] == 1) {
+                    if (matrixToCheck[r][pieceC] == 1 || matrixToCheck[r][pieceC] == 2) {
                         return 
                     }
                 }
@@ -654,12 +656,9 @@ export function pawnInFront(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][pieceC] == 0) {
                         matrixToCreate[r][pieceC] = 2
                     }
-                    else if (matrixToCheck[r][pieceC] == 2) {
+                    if (matrixToCheck[r][pieceC] == 1 || matrixToCheck[r][pieceC] == 2) {
                         return 
                     }
-                    else if (matrixToCheck[r][pieceC] == 1) {
-                        return 
-                    }  
                 }
             }
         }

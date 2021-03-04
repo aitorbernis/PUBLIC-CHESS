@@ -340,17 +340,17 @@ function clickHandler(cvs, event) {
 
     if (turn == 1) {
         if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
-            // if (rule.check == true) {
-            //     reDraw()
-            //     pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
-            //     xPos = xBoard
-            //     yPos = yBoard
-            //     paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-            //     gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
-            //     clickState = true
-            //     return
-            // }
-            // else {
+            if (rule.check == true) {
+                reDraw()
+                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+                xPos = xBoard
+                yPos = yBoard
+                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+                clickState = true
+                return
+            }
+            else {
                 reDraw()
                 pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
                 xPos = xBoard
@@ -360,7 +360,7 @@ function clickHandler(cvs, event) {
                 clickState = true
                 console.log("White Piece Selected")
                 return
-            // }
+            }
             
         }
         else if (clickState == true) {
@@ -376,7 +376,7 @@ function clickHandler(cvs, event) {
                 console.log("NEW MOVE")
                 
                 reDrawNoAvail()
-                
+                clickState = false
                 refreshSelectedPiece()
                 
                 return

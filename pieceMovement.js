@@ -466,295 +466,143 @@ export function kingMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
 // KNIGHT
 
 export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
-    
+    console.log(matrixToCheck)
     for (let c = 0; c < 8; c++) {
         let a = pieceC - c
         for (let r = 0; r < 8; r++){
             let b = pieceR - r
-            if (a == 2 && b == 1){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
+            if (a == 1) {
+                if (b == 2 || b == -2) {
+                    if (pieceColor == "white") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 1
+                        }
+                        if (matrixToCheck[r][c] == 2) {
+                            matrixToCreate[r][c] = -1
+                            
+                        }
+                        if (matrixToCheck[r][c] == 22) {
+                            matrixToCreate[r][c] = -11
+                            
+                        }
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
+                    else if (pieceColor == "black") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 2
+                        }
+                        if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                            
+                        }
+                        if (matrixToCheck[r][c] == 1) {
+                            matrixToCreate[r][c] = -2
+                            
+                        }
+                        if (matrixToCheck[r][c] == 11) {
+                            matrixToCreate[r][c] = -22
+                            
+                        }
                     }
                 }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
+            }
+
+            if (a == 2) {
+                if (b == 1 || b == -1) {
+                    if (pieceColor == "white") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 1
+                        }
+                        if (matrixToCheck[r][c] == 2) {
+                            matrixToCreate[r][c] = -1
+                            
+                        }
+                        if (matrixToCheck[r][c] == 22) {
+                            matrixToCreate[r][c] = -11
+                            
+                        }
                     }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
+                    else if (pieceColor == "black") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 2
+                        }
+                        if (matrixToCheck[r][c] == 1) {
+                            matrixToCreate[r][c] = -2
+                            
+                        }
+                        if (matrixToCheck[r][c] == 11) {
+                            matrixToCreate[r][c] = -22
+                            
+                        }
                     }
                 }
                 
             }
-            
-            if (a == 1 && b == 2){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
+
+            if (a == -1) {
+                if (b == 2 || b == -2) {
+                    if (pieceColor == "white") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 1
+                        }
+                        if (matrixToCheck[r][c] == 2) {
+                            matrixToCreate[r][c] = -1
+                            
+                        }
+                        if (matrixToCheck[r][c] == 22) {
+                            matrixToCreate[r][c] = -11
+                            
+                        }
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
-                    }
-                }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
-                    }
-                }
-            }
-            
-            if (a == -1 && b == 2){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
-                    }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
-                    }
-                }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
+                    else if (pieceColor == "black") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 2
+                        }
+                        if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                            
+                        }
+                        if (matrixToCheck[r][c] == 1) {
+                            matrixToCreate[r][c] = -2
+                            
+                        }
+                        if (matrixToCheck[r][c] == 11) {
+                            matrixToCreate[r][c] = -22
+                            
+                        }
                     }
                 }
             }
             
-            if (a == -2 && b == 1){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
+            if (a == -2) {
+                if (b == 1 || b == -1) {
+                    if (pieceColor == "white") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 1
+                        }
+                        if (matrixToCheck[r][c] == 2) {
+                            matrixToCreate[r][c] = -1
+                            
+                        }
+                        if (matrixToCheck[r][c] == 22) {
+                            matrixToCreate[r][c] = -11
+                            
+                        }
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
-                    }
-                }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
-                    }
-                }
-                
-            }
-            
-            if (a == -2 && b == -1){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
-                    }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
+                    else if (pieceColor == "black") {
+                        if (matrixToCheck[r][c] == 0) {
+                            matrixToCreate[r][c] = 2
+                        }
+                        if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                            
+                        }
+                        if (matrixToCheck[r][c] == 1) {
+                            matrixToCreate[r][c] = -2
+                            
+                        }
+                        if (matrixToCheck[r][c] == 11) {
+                            matrixToCreate[r][c] = -22
+                            
+                        }
                     }
                 }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
-                    }
-                }
-                
-            }
-            
-            if (a == -1 && b == -2){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
-                    }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
-                    }
-                }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
-                    }
-                }
-                
-            }
-            
-            if (a == 1 && b == -2){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
-                    }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
-                    }
-                }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
-                    }
-                }
-                
-            }
-            
-            if (a == 2 && b == -1){
-                if (pieceColor == "white") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 1
-                    }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 2) {
-                        matrixToCreate[r][c] = -1
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -11
-                        return
-                    }
-                }
-                else if (pieceColor == "black") {
-                    if (matrixToCheck[r][c] == 0) {
-                        matrixToCreate[r][c] = 2
-                    }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 1) {
-                        matrixToCreate[r][c] = -2
-                        return
-                    }
-                    if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -22
-                        return
-                    }
-                }
-                
             }
         }
     }

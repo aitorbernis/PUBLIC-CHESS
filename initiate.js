@@ -335,6 +335,9 @@ function clickHandler(cvs, event) {
     console.log("Canvas Pressed Square", xCanvas, yCanvas)
     console.log("Board Pressed Square", xBoard, yBoard)
     console.log("|||||||||||||||||||||||||||||||||---------")
+    console.log(numberMatrix)
+    
+    console.log(rule.check)
 
     // if pressed off the board, just return (out of board, so use x/yCANVAS)
     if (xCanvas == 0 || xCanvas == 9 || yCanvas == 0 || yCanvas == 9) {
@@ -349,7 +352,7 @@ function clickHandler(cvs, event) {
                 xPos = xBoard
                 yPos = yBoard
                 paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-                gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
                 clickState = true
                 return
             }

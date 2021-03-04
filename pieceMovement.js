@@ -1,6 +1,6 @@
 import {kingPosition, rule} from "./initiate.js"
 // HERE WE HAVE THE FUNCTIONS TO CHECK THE AVAILABLE SQUARES AROUND A PIECE
-var vj = 0
+
 // VERTICAL AND HORIZONTAL
 
 export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
@@ -14,8 +14,12 @@ export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
                         return
                     }
                 }
@@ -32,8 +36,12 @@ export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                    if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
                         return
                     }
                 }
@@ -53,8 +61,12 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
                         return
                     }
                 }
@@ -71,8 +83,12 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                    if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
                         return
                     }
                 }
@@ -92,8 +108,12 @@ export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
                         return
                     }
                 }
@@ -110,8 +130,12 @@ export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                    if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
                         return
                     }
                 }
@@ -131,8 +155,12 @@ export function horizontalRight(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                    if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
                         return
                     }
                 }
@@ -149,8 +177,12 @@ export function horizontalRight(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
                         return
                     }
-                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                    if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
                         return
                     }
                 }
@@ -206,7 +238,7 @@ export function topLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         return
                     }
                     if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -2
+                        matrixToCreate[r][c] = -22
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -241,8 +273,7 @@ export function topRightDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, 
                         kingPosition.positionR = r
                         rule.check = true
                         return 
-                    } 
-
+                    }
                 }
             }
         }
@@ -264,7 +295,7 @@ export function topRightDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC, 
                         return
                     }
                     if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -2
+                        matrixToCreate[r][c] = -22
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -322,7 +353,7 @@ export function bottomLeftDiagonal(matrixToCheck, matrixToCreate, pieceR, pieceC
                         return
                     }
                     if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -2
+                        matrixToCreate[r][c] = -22
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -379,7 +410,7 @@ export function bottomRightDiagonal(matrixToCheck, matrixToCreate, pieceR, piece
                         return
                     }
                     if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -2
+                        matrixToCreate[r][c] = -22
                         kingPosition.positionC = c
                         kingPosition.positionR = r
                         rule.check = true
@@ -444,18 +475,33 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                 if (pieceColor == "white") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
-                        
+                    }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
                     }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
                 
@@ -466,18 +512,32 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
-    
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
-
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
             }
@@ -487,18 +547,32 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
-    
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
-
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
             }
@@ -508,18 +582,32 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
-    
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
-
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
                 
@@ -530,16 +618,32 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
                 
@@ -550,16 +654,32 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
                 
@@ -570,44 +690,74 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
                 
             }
             
-            else if (a == 2 && b == -1){
+            if (a == 2 && b == -1){
                 if (pieceColor == "white") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 1
                     }
+                    if (matrixToCheck[r][c] == 1 || matrixToCheck[r][c] == 11) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 2) {
                         matrixToCreate[r][c] = -1
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 22) {
+                        matrixToCreate[r][c] = -11
+                        return
                     }
                 }
                 else if (pieceColor == "black") {
                     if (matrixToCheck[r][c] == 0) {
                         matrixToCreate[r][c] = 2
                     }
+                    if (matrixToCheck[r][c] == 2 || matrixToCheck[r][c] == 22) {
+                        return
+                    }
                     if (matrixToCheck[r][c] == 1) {
                         matrixToCreate[r][c] = -2
+                        return
+                    }
+                    if (matrixToCheck[r][c] == 11) {
+                        matrixToCreate[r][c] = -22
+                        return
                     }
                 }
                 
             }
-            
         }
     }
-    
 }
 
 // PAWN
@@ -676,7 +826,7 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                         matrixToCreate[r][c] = -1
                     }
                     else if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -1
+                        matrixToCreate[r][c] = -11
                         ruleState.check = true
                         console.log("Check", ruleState.check)
                     }
@@ -695,7 +845,7 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                         matrixToCreate[r][c] = -1
                     }
                     else if (matrixToCheck[r][c] == 22) {
-                        matrixToCreate[r][c] = -1
+                        matrixToCreate[r][c] = -11
                         ruleState.check = true
                         console.log("Check", ruleState.check)
                     }
@@ -715,7 +865,7 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                         matrixToCreate[r][c] = -2
                     }
                     else if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -2
+                        matrixToCreate[r][c] = -22
                         ruleState.check = true
                         console.log("Check", ruleState.check)
                     }
@@ -732,7 +882,7 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                         matrixToCreate[r][c] = -2
                     }
                     else if (matrixToCheck[r][c] == 11) {
-                        matrixToCreate[r][c] = -2
+                        matrixToCreate[r][c] = -22
                         ruleState.check = true
                         console.log("Check", ruleState.check)
                     }

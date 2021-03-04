@@ -124,7 +124,6 @@ export function makeNumberMatrix() {
                         numberMatrix[c][r] = 1
                     }
                     
-                    
                 }
                 if (gameArray[gameArray.length-1][c][r].colorPiece == "black"){
                     if (gameArray[gameArray.length-1][c][r] == kB) {
@@ -314,6 +313,10 @@ function refreshSelectedPiece() {
     yPos = 0
 }
 
+function checkIfTheresCheck() {
+
+}
+
 function clickHandler(cvs, event) {
     // CREATE A COPY OF THE LAST NAME MATRIX
     newNameMatrix = gameArray[gameArray.length-1].map(a => Object.assign({}, a))
@@ -346,7 +349,7 @@ function clickHandler(cvs, event) {
                 xPos = xBoard
                 yPos = yBoard
                 paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvailCheck()
                 clickState = true
                 return
             }
@@ -420,9 +423,7 @@ function clickHandler(cvs, event) {
                 instantAvailMatrix()
                 modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
                 pieceToMove.checkAvail()
-                
                 turn = turn * (-1) 
-                
                 console.log("---- Moved WHITE piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
                 console.log("-----------------------------------")
                 console.log("NEW MOVE")

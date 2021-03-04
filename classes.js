@@ -217,6 +217,7 @@ export class Pawn {
     }
     checkAvailCheck() {
         pawnInFront(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
+        pawnDiagonals(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
         paintAvailable()
     }
 }

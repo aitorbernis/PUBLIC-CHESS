@@ -335,7 +335,6 @@ function clickHandler(cvs, event) {
     console.log("Canvas Pressed Square", xCanvas, yCanvas)
     console.log("Board Pressed Square", xBoard, yBoard)
     console.log("|||||||||||||||||||||||||||||||||---------")
-    console.log(numberMatrix)
     
     console.log(rule.check)
 
@@ -380,6 +379,7 @@ function clickHandler(cvs, event) {
                 console.log("---- Moved WHITE piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
                 console.log("-----------------------------------")
                 console.log("NEW MOVE")
+                console.log(rule.check)
                 
                 reDrawNoAvail()
                 clickState = false
@@ -416,7 +416,7 @@ function clickHandler(cvs, event) {
                 paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
                 gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
                 clickState = true
-                console.log("White Piece Selected")
+                console.log("Black Piece Selected")
                 return
             // }
             
@@ -427,7 +427,7 @@ function clickHandler(cvs, event) {
                 modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
                 pieceToMove.checkAvail()
                 turn = turn * (-1) 
-                console.log("---- Moved WHITE piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                console.log("---- Moved Black piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
                 console.log("-----------------------------------")
                 console.log("NEW MOVE")
                 

@@ -151,35 +151,65 @@ function refreshSelectedPiece() {
     yPos = 0
 }
 
-function checkIfCreatesOwnCheck(newMatrix, availableMatrix, pieceToMove) {
-    
-    if (turn == 1) {
-        for (let c = 0; c < 8; c++) {
-            for (let r = 0; r < 8; r++) {
-                if (availableMatrix[r][c]== 1) {
-                    var matrixToCheckIfCheck = newMatrix.map(a => Object.assign({}, a))
-                    matrixToCheckIfCheck[yPos][xPos] = 0
-                    matrixToCheckIfCheck[r][c] = pieceToMove 
-                    console.log(matrixToCheckIfCheck)
-                    for (let i = 0; i < 8; i++) {
-                        for (let j = 0; j < 8; j++) {
-                            if (matrixToCheckIfCheck[j][i].colorPiece == "black") {
-                                matrixToCheckIfCheck[j][i].checkAvail()
-                                if (rule.check == true) {
-                                    console.log("makes check")
-                                    return
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-}
+// function checkIfCreatesOwnCheck(newMatrix, availableMatrix, pieceToMove) {
+//     if (turn == 1) {
+//         for (let c = 0; c < 8; c++) {
+//             for (let r = 0; r < 8; r++) {
+//                 if (availableMatrix[r][c]== 1) {
+//                     var matrixToCheckIfCheck = newMatrix.map(a => Object.assign({}, a))
+//                     matrixToCheckIfCheck[yPos][xPos] = 0
+//                     matrixToCheckIfCheck[r][c] = pieceToMove 
+//                     console.log(matrixToCheckIfCheck)
+//                     for (let i = 0; i < 8; i++) {
+//                         for (let j = 0; j < 8; j++) {
+//                             if (matrixToCheckIfCheck[j][i].colorPiece == "black") {
+//                                 matrixToCheckIfCheck[j][i].checkAvail()
+//                                 if (rule.check == true) {
+//                                     console.log("makes check")
+//                                     return
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     } 
+// }
+
+// function checkIfCreatesOwnCheck(turn, availMatrix, newNameMatrix, xPos, yPos) {
+//     var ownCheck = false
+//     availMatrix.map((row, rowNumber) => {
+//         // console.log(row, rowNumber)
+//         row.map((squareInMatrix, columnNumber) => {
+//             if (squareInMatrix == 1) {
+//                 var tempNameMatrix = newNameMatrix.map(a => Object.assign({}, a))
+//                 tempNameMatrix[yPos][xPos] = 0
+//                 tempNameMatrix[rowNumber][columnNumber] = pieceToMove 
+//                 // console.log(tempNameMatrix)
+//                 checkIfCreatesAdvCheck(tempNameMatrix)
+
+//             }
+//         })
+//     })
 
 
+// }
+
+// function checkIfCreatesAdvCheck(tempNameMatrix) {
+//     // console.log(tempNameMatrix)
+//     tempNameMatrix.map((row, index) => {
+//         Object.values(row)
+//         // console.log(Object.values(row))
+//         Object.values(row).map((piece) => {
+//             console.log(availMatrix)
+
+//         })
+//         // if (Object.values(row).colorPiece == "black") {
+//         //     console.log(Object.values(row))
+//         // }
+//     })
+// }
 
 // ACTUAL GAME FUNCTION, CLICK HANDLER
 export function clickFunction() {
@@ -233,7 +263,8 @@ function clickHandler(cvs, event) {
                 yPos = yBoard
                 paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
                 gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
-                checkIfCreatesOwnCheck(newNameMatrix, availMatrix, pieceToMove)
+                console.log(availMatrix)
+                // checkIfCreatesOwnCheck(turn, availMatrix, newNameMatrix, xPos, yPos)
                 // console.log(newNameMatrix)
                 
                 // funció que després del check available faci un checkifcheck

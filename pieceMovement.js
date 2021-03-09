@@ -20,6 +20,7 @@ export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     }
                     if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -11
+                        rule.check = true
                         return
                     }
                 }
@@ -42,6 +43,7 @@ export function verticalTop(matrixToCheck, matrixToCreate, pieceR, pieceC, piece
                     }
                     if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -22
+                        rule.check = true
                         return
                     }
                 }
@@ -67,6 +69,7 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     }
                     if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -11
+                        rule.check = true
                         return
                     }
                 }
@@ -89,6 +92,7 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     }
                     if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -22
+                        rule.check = true
                         return
                     }
                 }
@@ -98,6 +102,7 @@ export function verticalBottom(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
 }
 
 export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
+
     if (pieceColor == "white") {
         for (let c = (pieceC - 1); c >= 0; c--) {
             for (let r = 0; r < 8; r++) {
@@ -114,6 +119,7 @@ export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     }
                     if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -11
+                        rule.check = true
                         return
                     }
                 }
@@ -136,6 +142,7 @@ export function horizontalLeft(matrixToCheck, matrixToCreate, pieceR, pieceC, pi
                     }
                     if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -22
+                        rule.check = true
                         return
                     }
                 }
@@ -161,6 +168,7 @@ export function horizontalRight(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     }
                     if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -11
+                        rule.check = true
                         return
                     }
                 }
@@ -183,6 +191,7 @@ export function horizontalRight(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                     }
                     if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -22
+                        rule.check = true
                         return
                     }
                 }
@@ -479,11 +488,10 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 2) {
                             matrixToCreate[r][c] = -1
-                            
                         }
                         if (matrixToCheck[r][c] == 22) {
                             matrixToCreate[r][c] = -11
-                            
+                            rule.check = true
                         }
                     }
                     else if (pieceColor == "black") {
@@ -499,6 +507,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 11) {
                             matrixToCreate[r][c] = -22
+                            rule.check = true
                             
                         }
                     }
@@ -517,6 +526,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 22) {
                             matrixToCreate[r][c] = -11
+                            rule.check = true
                             
                         }
                     }
@@ -530,6 +540,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 11) {
                             matrixToCreate[r][c] = -22
+                            rule.check = true 
                             
                         }
                     }
@@ -549,6 +560,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 22) {
                             matrixToCreate[r][c] = -11
+                            rule.check = true
                             
                         }
                     }
@@ -565,6 +577,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 11) {
                             matrixToCreate[r][c] = -22
+                            rule.check = true
                             
                         }
                     }
@@ -583,6 +596,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 22) {
                             matrixToCreate[r][c] = -11
+                            rule.check = true
                             
                         }
                     }
@@ -599,6 +613,7 @@ export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, p
                         }
                         if (matrixToCheck[r][c] == 11) {
                             matrixToCreate[r][c] = -22
+                            rule.check = true
                             
                         }
                     }

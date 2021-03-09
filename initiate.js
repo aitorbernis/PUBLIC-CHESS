@@ -212,10 +212,10 @@ export function startingFunction() {
 }
 
 // THIS FUNCTION TAKES THE NEW MATRIX, SETS A 0 AT ITS FORMER POSITION, AND SETS THE PIECE AT IT'S DESTINATION, THEN PUSH MATRIX INTO ARRAY, SET THISC/R AND MAKE NUMBER MATRIX
-function modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard) {
-    newNameMatrix[yPos][xPos] = 0
-    newNameMatrix[yBoard][xBoard] = pieceToMove 
-    gameArray.push(newNameMatrix)
+function modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard, matrix) {
+    matrix[yPos][xPos] = 0
+    matrix[yBoard][xBoard] = pieceToMove 
+    gameArray.push(matrix)
     setPosition()
     makeNumberMatrix()
 }
@@ -239,7 +239,7 @@ function reDrawNoAvail() {
 export function clickFunction() {
     cvs.addEventListener('mousedown', function(e) {clickHandler(cvs, e)})
 }
-export var newNameMatrix
+
 export var checkMatrix
 var clickState = false
 
@@ -319,7 +319,7 @@ function checkIfTheresCheck() {
 
 function clickHandler(cvs, event) {
     // CREATE A COPY OF THE LAST NAME MATRIX
-    newNameMatrix = gameArray[gameArray.length-1].map(a => Object.assign({}, a))
+    var newNameMatrix = gameArray[gameArray.length-1].map(a => Object.assign({}, a))
     const rect = cvs.getBoundingClientRect()
     var x = event.clientX - rect.left
     var y = event.clientY - rect.top
@@ -336,26 +336,24 @@ function clickHandler(cvs, event) {
     console.log("Board Pressed Square", xBoard, yBoard)
     console.log("|||||||||||||||||||||||||||||||||---------")
     
-    console.log(rule.check)
+    // console.log(rule.check)
 
-    // if pressed off the board, just return (out of board, so use x/yCANVAS)
-    if (xCanvas == 0 || xCanvas == 9 || yCanvas == 0 || yCanvas == 9) {
-        return
-    }
 
-    if (turn == 1) {
+    var boardFilter = xCanvas == 0 || xCanvas == 9 || yCanvas == 0 || yCanvas == 9
+    console.log(boardFilter)
+    if (turn == 1 && !boardFilter) {
         if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
-            if (rule.check == true) {
-                reDraw()
-                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
-                xPos = xBoard
-                yPos = yBoard
-                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
-                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
-                clickState = true
-                return
-            }
-            else {
+            // if (rule.check == true) {
+            //     reDraw()
+            //     pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+            //     xPos = xBoard
+            //     yPos = yBoard
+            //     paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+            //     gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+            //     clickState = true
+            //     return
+            // }
+            // if {
                 reDraw()
                 pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
                 xPos = xBoard
@@ -365,13 +363,13 @@ function clickHandler(cvs, event) {
                 clickState = true
                 console.log("White Piece Selected")
                 return
-            }
+            // }
             
         }
         else if (clickState == true) {
             if (availMatrix[yBoard][xBoard] == 1 || availMatrix[yBoard][xBoard] == -1){ //if copy paste, change 1 and -1 to 2 and -2
                 instantAvailMatrix()
-                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
+                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard, newNameMatrix)
                 pieceToMove.checkAvail()
                 
                 turn = turn * (-1) 
@@ -396,7 +394,7 @@ function clickHandler(cvs, event) {
         }
         
     }
-    else if (turn == -1) {
+    else if (turn == -1 && !boardFilter)  {
         if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "black"){ //if copy paste, change white to black
             // if (rule.check == true) {
             //     reDraw()
@@ -424,7 +422,7 @@ function clickHandler(cvs, event) {
         else if (clickState == true) {
             if (availMatrix[yBoard][xBoard] == 2 || availMatrix[yBoard][xBoard] == -2){ //if copy paste, change 1 and -1 to 2 and -2
                 instantAvailMatrix()
-                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard)
+                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard, newNameMatrix)
                 pieceToMove.checkAvail()
                 turn = turn * (-1) 
                 console.log("---- Moved Black piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")

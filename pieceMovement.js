@@ -431,7 +431,8 @@ export function bottomRightDiagonal(matrixToCheck, matrixToCreate, pieceR, piece
     }
 }
 
-//  KING
+
+// KING
 
 export function kingMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
     if (pieceColor == "white") {
@@ -475,7 +476,6 @@ export function kingMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
 // KNIGHT
 
 export function knightMovements(matrixToCheck, matrixToCreate, pieceR, pieceC, pieceColor) {
-    console.log(matrixToCheck)
     for (let c = 0; c < 8; c++) {
         let a = pieceC - c
         for (let r = 0; r < 8; r++){
@@ -691,7 +691,6 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                     else if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -11
                         ruleState.check = true
-                        console.log("Check", ruleState.check)
                     }
                 }
                 
@@ -710,7 +709,6 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                     else if (matrixToCheck[r][c] == 22) {
                         matrixToCreate[r][c] = -11
                         ruleState.check = true
-                        console.log("Check", ruleState.check)
                     }
                 }
             }
@@ -730,7 +728,6 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                     else if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -22
                         ruleState.check = true
-                        console.log("Check", ruleState.check)
                     }
                 }
             }
@@ -747,7 +744,6 @@ export function pawnDiagonals(matrixToCheck, matrixToCreate, pieceR, pieceC, pie
                     else if (matrixToCheck[r][c] == 11) {
                         matrixToCreate[r][c] = -22
                         ruleState.check = true
-                        console.log("Check", ruleState.check)
                     }
                 }
             }

@@ -1,48 +1,9 @@
-import {numberMatrix, availMatrix, checkMatrix} from "./initiate.js"
+import {availMatrix, checkMatrix} from "./initiate.js"
 import {verticalTop, verticalBottom, horizontalLeft, horizontalRight, topLeftDiagonal, topRightDiagonal, bottomRightDiagonal, bottomLeftDiagonal
     , kingMovements, knightMovements, pawnInFront, pawnDiagonals} from "./pieceMovement.js"
-export const cvs = document.getElementById("chessBoard")
-export const ctx = cvs.getContext("2d")
-export const sqSize = 100
-
-
-// colors the available position squares at canvas
-function colorSqWhite(c, r) {
-    ctx.fillStyle = "#0AC8CF"
-    ctx.beginPath()
-    ctx.arc(((c+1)*sqSize)+(sqSize/2), (r+1)*sqSize+(sqSize/2), sqSize/3, 0, 2*Math.PI, false)
-    ctx.fill()
-}
-
-function colorSqBlack(c, r) {
-    ctx.fillStyle = "yellow"
-    ctx.beginPath()
-    ctx.arc(((c+1)*sqSize)+(sqSize/2), (r+1)*sqSize+(sqSize/2), sqSize/3, 0, 2*Math.PI, false)
-    ctx.fill()
-}
-
-function colorKill(c, r) {
-    ctx.fillStyle = "red"
-    ctx.beginPath()
-    ctx.arc(((c+1)*sqSize)+(sqSize/2), (r+1)*sqSize+(sqSize/2), sqSize/3, 0, 2*Math.PI, false)
-    ctx.fill()
-}
-
-function paintAvailable() {
-    for (let c = 0; c < 8; c++) {
-        for (let r = 0; r < 8; r++) {
-            if (availMatrix[r][c] == 1) {
-                colorSqWhite(c, r)
-            }
-            else if (availMatrix[r][c] == 2) {
-                colorSqBlack(c, r)
-            }
-            else if (availMatrix[r][c] == -1 || availMatrix[r][c] == -2 || availMatrix[r][c] == -11 || availMatrix[r][c] == -22) {
-                colorKill(c, r)
-            }
-        }
-    }
-}
+import {ctx} from "./canvasVar.js"
+import {sqSize} from "./board.js"
+import {numberMatrix} from "./gameMatrixes.js"
 
 
 // we create a class for each piece type
@@ -67,7 +28,6 @@ export class King {
     }
     checkAvail() {
         kingMovements(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     }
     
 }
@@ -102,7 +62,6 @@ export class Queen {
         topRightDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         bottomLeftDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         bottomRightDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     }
 }
 export class Bishop {
@@ -130,7 +89,6 @@ export class Bishop {
         topRightDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         bottomLeftDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         bottomRightDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     } 
 }
 export class Knight {
@@ -156,7 +114,6 @@ export class Knight {
     }
     checkAvail() {
         knightMovements(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     }
 
 }
@@ -186,7 +143,6 @@ export class Rook {
         verticalBottom(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         horizontalLeft(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         horizontalRight(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     }
 }
 export class Pawn {
@@ -213,16 +169,9 @@ export class Pawn {
     checkAvail() {
         pawnInFront(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         pawnDiagonals(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     }
     checkAvailCheck() {
         pawnInFront(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
         pawnDiagonals(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        paintAvailable()
     }
 }
-
-// ¿¿¿¿¿¿¿¿¿¿¿ DRAWER ?????????????
-// -------- REMINDERS --------
-
-// ...... SAVED CODE ......

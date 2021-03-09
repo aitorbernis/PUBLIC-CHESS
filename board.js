@@ -1,10 +1,10 @@
-const cvs = document.getElementById("chessBoard")
-export const ctx = cvs.getContext("2d")
+import {ctx} from "./canvasVar.js"
+
 export const sqSize = 100
 
 // size of the whole canvas
 const fieldSize = 10
-//hijo de puta
+
 // indicators at the canvas
 const numbersx = ["   x", 0, 1, 2, 3, 4, 5, 6, 7, ""]
 const numbersy = ["y", 0, 1, 2, 3, 4, 5, 6, 7, ""]
@@ -36,8 +36,4 @@ export function board() {
       }
     }
   }
-}
-
-export function clearCanvas() {
-  ctx.clearRect(0, 0, cvs.width, cvs.height);
 }

@@ -1,7 +1,17 @@
-import {reDraw, startingFunction} from "./initiate.js" 
+import { startingFunction } from "./initiate.js" 
+import { loopFunction } from "./loopFunction.js"
 
 
 startingFunction()
+loopFunction()
 
-reDraw()
 
+// CODE PIECES
+
+// map thru a matrix ---------------------------
+// matrixToCheck.map((rowObject, indexOfRow) => {
+//     // whatever[r][c] == whatever [indexOfRow][indexInRow]
+//     Object.values(rowObject)
+//     Object.values(rowObject).map((position, indexInRow) => {})
+// })
+// ---------------------------------------------

@@ -1,29 +1,28 @@
-import {availMatrix, checkMatrix} from "./initiate.js"
 import {verticalTop, verticalBottom, horizontalLeft, horizontalRight, topLeftDiagonal, topRightDiagonal, bottomRightDiagonal, bottomLeftDiagonal
     , kingMovements, knightMovements, pawnInFront, pawnDiagonals} from "./pieceMovement.js"
 import {ctx} from "./canvasVar.js"
 import {sqSize} from "./board.js"
-import {numberMatrix} from "./gameMatrixes.js"
 
 
 // we create a class for each piece type
 export class King {
-    constructor(color, c, r) {
+    constructor(color, pieceType, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
+        this.pieceType = pieceType
     }
     // makes king white
     drawPiece() {
         if (this.colorPiece == "white"){
             const image = new Image();
             image.src = "./Pieces/kingWhite.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         if (this.colorPiece == "black"){
             const image = new Image();
             image.src = "./Pieces/kingBlack.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
     }
     checkAvail() {
@@ -32,43 +31,35 @@ export class King {
     
 }
 export class Queen {
-    constructor(color, c, r) {
+    constructor(color, pieceType, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
+        this.pieceType = pieceType
     }
     // makes king white
     drawPiece() {
         if (this.colorPiece == "white"){
             const image = new Image();
             image.src = "./Pieces/queenWhite.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         if (this.colorPiece == "black"){
             const image = new Image();
             image.src = "./Pieces/queenBlack.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         
     }
 
-    checkAvail() {
-        verticalTop(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        verticalBottom(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        horizontalLeft(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        horizontalRight(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
 
-        topLeftDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        topRightDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        bottomLeftDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        bottomRightDiagonal(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-    }
 }
 export class Bishop {
-    constructor(color, c, r) {
+    constructor(color, pieceType, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
+        this.pieceType = pieceType
     }
 
     // makes king white
@@ -76,12 +67,12 @@ export class Bishop {
         if (this.colorPiece == "white"){
             const image = new Image();
             image.src = "./Pieces/bishopWhite.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         if (this.colorPiece == "black"){
             const image = new Image();
             image.src = "./Pieces/bishopBlack.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
     }
     checkAvail() {
@@ -92,10 +83,11 @@ export class Bishop {
     } 
 }
 export class Knight {
-    constructor(color, c, r) {
+    constructor(color, pieceType, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
+        this.pieceType = pieceType
     }
 
     // makes king white
@@ -103,12 +95,12 @@ export class Knight {
         if (this.colorPiece == "white"){
             const image = new Image();
             image.src = "./Pieces/knightWhite.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         if (this.colorPiece == "black"){
             const image = new Image();
             image.src = "./Pieces/knightBlack.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         
     }
@@ -118,9 +110,11 @@ export class Knight {
 
 }
 export class Rook {
-    constructor(color, c, r) {
+    constructor(color, pieceType, c, r) {
         this.colorPiece = color
         this.c = c
+        this.r = r
+        this.pieceType = pieceType
     }
 
     // makes king white
@@ -128,14 +122,13 @@ export class Rook {
         if (this.colorPiece == "white"){
             const image = new Image();
             image.src = "./Pieces/rookWhite.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         if (this.colorPiece == "black"){
             const image = new Image();
             image.src = "./Pieces/rookBlack.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
-        
     }
 
     checkAvail() {
@@ -146,22 +139,23 @@ export class Rook {
     }
 }
 export class Pawn {
-    constructor(color, c, r) {
+    constructor(color, pieceType, c, r) {
         this.colorPiece = color
         this.c = c
         this.r = r
+        this.pieceType = pieceType
     }
     // makes king white
     drawPiece() {
         if (this.colorPiece == "white"){
             const image = new Image();
             image.src = "./Pieces/pawnWhite.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         if (this.colorPiece == "black"){
             const image = new Image();
             image.src = "./Pieces/pawnBlack.png";
-            image.onload = () => {ctx.drawImage(image, (this.c+1)*sqSize, (this.r+1)*sqSize, sqSize, sqSize)}
+            image.onload = () => {ctx.drawImage(image, (this.r+1)*sqSize, (this.c+1)*sqSize, sqSize, sqSize)}
         }
         
     }
@@ -169,9 +163,5 @@ export class Pawn {
     checkAvail() {
         pawnInFront(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
         pawnDiagonals(numberMatrix, availMatrix, this.r, this.c, this.colorPiece)
-    }
-    checkAvailCheck() {
-        pawnInFront(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
-        pawnDiagonals(checkMatrix, availMatrix, this.r, this.c, this.colorPiece)
     }
 }

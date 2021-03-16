@@ -1,16 +1,19 @@
-import {availMatrix, gameArray} from "./initiate.js"
-import {sqSize} from "./board.js"
-import {ctx} from "./canvasVar.js"
+import { gameArray } from "./initiate.js"
+import { sqSize, board } from "./board.js"
+import { ctx } from "./canvasVar.js"
 
 export function drawPieces() {
-    for (let c = 0; c < 8; c++) {
-        for (let r = 0; r < 8; r++){
-            if (gameArray[gameArray.length-1][c][r] != 0) {
-                gameArray[gameArray.length-1][c][r].drawPiece()
+    // map thru the rows of the matrix
+    gameArray[gameArray.length-1].map((row) => {
+        // we get objects, so we transform them into arrays
+        Object.values(row)
+        // we map every row to get every square (piece)
+        Object.values(row).map((piece) => {
+            if (piece != 0) {
+                piece.drawPiece()
             }
-            
-        }
-    }
+        })
+    })
 }
 
 // colors the available position squares at canvas
@@ -51,7 +54,7 @@ export function paintAvailable() {
     }
 }
 
-export function paintSelectedPiece(c, r, pieceToMove) {
+export function paintSelectedPiece(pieceToMove, r, c) {
     if (pieceToMove.colorPiece == "white") {
         ctx.strokeStyle = "#0AC9CF"
     }
@@ -60,4 +63,9 @@ export function paintSelectedPiece(c, r, pieceToMove) {
     }
     ctx.lineWidth = 10
     ctx.strokeRect(c*sqSize, r*sqSize, sqSize, sqSize)
+}
+
+export function reDraw() {
+    board()
+    drawPieces()
 }

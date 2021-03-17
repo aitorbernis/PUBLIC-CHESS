@@ -52,6 +52,64 @@ function clickHandler(cvs, event) {
 
         }
     }
+    if (turn == 1 && !boardFilter) {
+        if (gameArray[gameArray.length-1][yBoard][xBoard].colorPiece == "white"){ //if copy paste, change white to black
+            // if (rule.check == true) {
+            //     reDraw()
+            //     pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+            //     xPos = xBoard
+            //     yPos = yBoard
+            //     paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+            //     gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+            //     clickState = true
+            //     return
+            // }
+            // if {
+                reDraw()
+                pieceToMove = gameArray[gameArray.length-1][yBoard][xBoard]
+                xPos = xBoard
+                yPos = yBoard
+                paintSelectedPiece(xCanvas, yCanvas, pieceToMove) 
+                gameArray[gameArray.length-1][yBoard][xBoard].checkAvail()
+                console.log(availMatrix)
+                // checkIfCreatesOwnCheck(turn, availMatrix, newNameMatrix, xPos, yPos)
+                // console.log(newNameMatrix)
+                
+                // funció que després del check available faci un checkifcheck
+                clickState = true
+                console.log("White Piece Selected")
+                return
+            // }
+            
+        }
+        else if (clickState == true) {
+            if (availMatrix[yBoard][xBoard] == 1 || availMatrix[yBoard][xBoard] == -1){ //if copy paste, change 1 and -1 to 2 and -2
+                instantAvailMatrix()
+                modifyNameMatrix(xPos, yPos, pieceToMove, xBoard, yBoard, newNameMatrix)
+                pieceToMove.checkAvail()
+                
+                turn = turn * (-1) 
+                
+                console.log("---- Moved WHITE piece from: ", xPos, yPos, " to: ", xBoard, yBoard, "----")
+                console.log("-----------------------------------")
+                console.log("NEW MOVE")
+                console.log(rule.check)
+                
+                reDrawNoAvail()
+                clickState = false
+                refreshSelectedPiece()
+                
+                return
+            }
+            else {
+                clickState = false
+                reDraw()
+                return
+            }
+
+        }
+        
+    }
 }
 
 function selectedPiece(matrix, rBoard, cBoard) {

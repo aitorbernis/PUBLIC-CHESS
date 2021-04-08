@@ -1,2 +1,0 @@
-# PUBLIC-CHESS
-public chess

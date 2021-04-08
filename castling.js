@@ -1,5 +1,5 @@
-import { editAvailMovLeft } from "./jaque.js"
-import { setNewPositions } from "./loopFunction.js"
+import { editAvailMovLeft } from "./checkMatrixFunction.js"
+import { setNewPositions } from "./handlerFunctions.js"
 import { underCheck } from "./scanMatrixes.js"
 
 
@@ -8,7 +8,7 @@ export function castling( nameMatrix, pieceToMove, turn ) {
     // description SCANS BOTH SIDES OF KING TO SEE IF A CASTLING IS AVAILABLE
     // parameter NAME MATRIX, PIECETOMOVE (HAS TO BE KING), TURN
     // return ??
-    
+
     var queenAvail = false
     var kingAvail = false
     queenAvail = queenSide( nameMatrix, pieceToMove, turn )

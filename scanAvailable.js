@@ -7,7 +7,7 @@ export function verticalTop( matrixToScan, matrixToCreate, pieceC, pieceR, piece
     // description SCAN THE VERTICAL TOP POSITIONS OF A NUMBER MATRIX AND CREATE AN AVAILMATRIX
     // parameter MATRIXTOSCAN (numberMatrix) && MATRIXTOCREATE (availMatrix) && PIECEC && PIECER && PIECECOLOR
     // return array[MATRIX (availMatrix), BOOLEAN (check true/false)]
-    
+
     var check = false
     for ( let r = ( pieceR - 1 ); r >= 0; r-- ) {
         if ( pieceColor == "white" ) {

@@ -1,13 +1,12 @@
 import { cvs } from "./canvasVar.js"
-import { board } from "./board.js"
 import { gameArray } from "./initiate.js"
-import { paintSelectedPiece, drawPieces } from "./draw.js"
+import { paintSelectedPiece, paintAvailable } from "./drawFunctions.js"
 import { copyMatrix, setPosition } from "./gameMatrixes.js"
-import { paintAvailable } from "./draw.js"
 import { showPieces, setPassant, deletePassantKilled, setPassantFalse } from "./pawnFunctions.js"
 import { Queen, Knight, Bishop, Rook } from "./classes.js"
 import { gameState } from "./gameState.js"
 import { movementRepetition } from "./movRepetition.js"
+import { setNewPositions, getSelectedPiece, newMovement, tempNewMovement } from "./handlerFunctions.js"
 
 
 
@@ -15,7 +14,7 @@ import { movementRepetition } from "./movRepetition.js"
 
 export function loopFunction() {
 
-    // description ACTUAL GAME FUNCTION, CLICK HANDLER
+    // description INCLUDES THE EVENT LISTENER, WHICH CALLS CLICKHANDLER FUNCTION
 
     cvs.addEventListener( 'mousedown', function ( e ) { clickHandler( cvs, e ) } )
 
@@ -23,62 +22,27 @@ export function loopFunction() {
 
 
 
-export function newMovement() {
-
-    // description DRAWS A NEW MOVEMENT FROM GAME ARRAY
-
-    board()
-    drawPieces( gameArray[ gameArray.length - 1 ] )
-}
-
-
-
-export function tempNewMovement( matrix ) {
-
-    // description DRAWS A NEW MOVEMENT FROM MATRIX
-    // parameter MATRIX
-
-    board()
-    drawPieces( matrix )
-}
-
-
 // info CLICKSTATE false --> first click || true --> second click || "promotion" --> pawn promotion
 var clickState = false
-// info TURN 1 = white
+
+// info TURN 1 = white || -1 = black
 var turn = 1
+
+// info Piece to move at each movement
 var pieceToMove
+
 // info ORIGINc/c position of first click
 var originC = 0
 var originR = 0
+
+// info Matrix with available positions of piece
 var availMatrix
+
 // info TEMPNAMEMATRIX temprorary nameMatrix for pawn promotion
 var tempNameMatrix
 
 
 
-export function setNewPositions( originR, originC, destinationR, destinationC, matrixToEdit, pieceToMove ) {
-
-    // description PUTS PIECE AT DESTINATION AND SETS 0 AT ORIGIN
-    // parameter ORIGINc/r (original position) && DESTINATIONc/r (destination) && MATRIXTOEDIT && PIECETOMOVE
-    // return MATRIX (modified matrix)
-
-    var newMatrix = copyMatrix( matrixToEdit )
-    newMatrix[ originR ][ originC ] = 0
-    newMatrix[ destinationR ][ destinationC ] = pieceToMove
-    return newMatrix
-}
-
-
-function getSelectedPiece( nameMatrix, rPosition, cPosition ) {
-
-    // description CREATES VAR WITH SELECTED PIECE
-    // parameter NAMEMATRIX (matrix to take piece from) && r/cPOSITION (position of piece)
-    // return PIECE (piece to move)
-
-    var pieceToMove = nameMatrix[ rPosition ][ cPosition ]
-    return pieceToMove
-}
 
 
 function clickHandler( cvs, event ) {
@@ -96,16 +60,15 @@ function clickHandler( cvs, event ) {
     const rect = cvs.getBoundingClientRect()
     var r = event.clientY - rect.top
     var c = event.clientX - rect.left
-    //CANVAS takes whole window, from 0 to 9 (10x10) used for everything referred to drawing and click point
+
     var cCanvas = Math.floor( c / 100 )
     var rCanvas = Math.floor( r / 100 )
 
-    //BOARD takes the board, from 0 to 7 (8x8) used for everything referring to matrixes
     var cBoard = Math.floor( c / 100 ) - 1
     var rBoard = Math.floor( r / 100 ) - 1
-    //----------------------------------------------------------
-    //----------------------------------------------------------
 
+    //----------------------------------------------------------
+    //----------------------------------------------------------
 
     console.log( "game Array", gameArray )
     console.log( "rCanvas" + rCanvas, "cCanvas" + cCanvas )
@@ -114,6 +77,7 @@ function clickHandler( cvs, event ) {
 
     // description TURN WHITE
     if ( turn == 1 ) {
+
         // info If not in promotion state
         if ( clickState != "promotion" ) {
             // info If clicked outside the board, return
@@ -122,8 +86,13 @@ function clickHandler( cvs, event ) {
             // description FIRST CLICK
             // info If clicked in the board, only act if white piece selected
             if ( gameArray[ gameArray.length - 1 ][ rBoard ][ cBoard ].pieceColor == "white" ) { // reminder copy/paste -> pieceColor = "black"
+
+                // info If after clicking a white piece you click another white one, restart the board. 
                 newMovement()
-                if(movementRepetition( gameArray )) {alert("DRAW!")}
+
+                // info Movement repetition draw condition
+                if ( movementRepetition( gameArray ) ) { alert( "DRAW!" ) }
+
                 // info Saves selected piece
                 pieceToMove = getSelectedPiece( gameArray[ gameArray.length - 1 ], rBoard, cBoard )
 
@@ -148,8 +117,10 @@ function clickHandler( cvs, event ) {
 
             // description SECOND CLICK
             else if ( clickState == true ) {
+
                 // info If clicked in an available destination
                 if ( availMatrix[ rBoard ][ cBoard ] == 1 || availMatrix[ rBoard ][ cBoard ] == -1 ) { // reminder copy/paste -> 2 -2
+
                     // description PAWN PROMOTION CONDITION
                     // info Promotion condition => If pieceToMove is a pawn at row 1 and moves to row 0
                     if ( pieceToMove.pieceType == "pawn" && originR == 1 && rBoard == 0 ) { // reminder copy/paste -> 6 7
@@ -168,10 +139,11 @@ function clickHandler( cvs, event ) {
                         return
                     }
 
+                    // description CASTLING this.moved CONDITION
                     // info For castling, if a king or rook moves, change the this.moved boolean
                     if ( pieceToMove.pieceType == "king" || pieceToMove.pieceType == "rook" ) { pieceToMove.moved = true }
 
-
+                    // description REGULAR SECOND CLICK WITHOUT CONDITIONANTS
                     // info Set pieceToMove to it's destination, and push this matrix into the gameArray
                     gameArray.push( setNewPositions( originR, originC, rBoard, cBoard, newNameMatrix, pieceToMove ) )
 
@@ -179,11 +151,15 @@ function clickHandler( cvs, event ) {
                     // info Sets this.c/r of the pieces of the new matrix
                     setPosition( gameArray[ gameArray.length - 1 ] )
 
-                    // info regular second click 
+                    // description PAWN EN PASSANT CONDITION
+                    // info If pieceToMove is a pawn and jumps from row 6 to 4 (initial double jump)
                     if ( pieceToMove.pieceType == "pawn" && originR == 6 && rBoard == 4 ) {
                         console.log( "Jumped two" )
+
+                        // info Set .passant & .toKill into desired pieces
                         setPassant( gameArray[ gameArray.length - 1 ], turn, pieceToMove, rBoard, cBoard )
                     }
+
                     // info Draws board with the new pieces configuration
                     newMovement()
 
@@ -191,18 +167,28 @@ function clickHandler( cvs, event ) {
                     turn = turn * -1
                     return
                 }
-                // description CASTLING
+
+                // description CASTLING CLICK
                 // info If clicked in a castling avail position (99 queenSide, -99 kingSide)
                 if ( availMatrix[ rBoard ][ cBoard ] == 99 ) {
-                    // info Set pieceToMove to it's destination, and push this matrix into the gameArray
+
                     var castlingNameMatrix = copyMatrix( newNameMatrix )
+
+                    // info Set King to destination
                     castlingNameMatrix = setNewPositions( originR, originC, rBoard, cBoard, newNameMatrix, pieceToMove )
+
+                    // info Set Rook to destination
                     castlingNameMatrix = setNewPositions( 7, 0, 7, 3, castlingNameMatrix, newNameMatrix[ 7 ][ 0 ] ) // reminder copy/paste -> 0 0 / 0 3 / 0 0
+
+                    // info Push new name matrix into game array
                     gameArray.push( castlingNameMatrix )
+
                     // info Sets this.c/r of the pieces of the new matrix
                     setPosition( gameArray[ gameArray.length - 1 ] )
+
                     // info Draws board with the new pieces configuration
                     newMovement()
+
                     // info Changes game turn
                     turn = turn * -1
                     return
@@ -217,9 +203,16 @@ function clickHandler( cvs, event ) {
                     turn = turn * -1
                     return
                 }
+
+                // description EN PASSANT CLICK
+                // info If clicked in a passant avail position
                 if ( availMatrix[ rBoard ][ cBoard ] == 100 ) {
                     console.log( "pressedd" );
+
+                    // info Set killer Pawn to destination
                     newNameMatrix = setNewPositions( originR, originC, rBoard, cBoard, newNameMatrix, pieceToMove )
+
+                    // info Delete killed Pawn from it's position and create the new name Matrix
                     newNameMatrix = deletePassantKilled( newNameMatrix, rBoard, cBoard, turn )
                     gameArray.push( newNameMatrix )
                     setPosition( gameArray[ gameArray.length - 1 ] )
@@ -263,6 +256,9 @@ function clickHandler( cvs, event ) {
                     paintSelectedPiece( pieceToMove, rCanvas, cCanvas )
                 }
                 if ( rCanvas == 7 ) { // reminder copy/paste -> 3
+
+                    // info Depending on where the pawn lands, the resulting bishop tile color will be dependent
+                    // info If landed in an even tile, (white tile), create a white tile color Bishop
                     if ( pieceToMove.c % 2 == 0 ) {
                         pieceToMove = new Bishop( "white", "white", pieceToMove.c, pieceToMove.r ) // reminder copy/paste -> "black" "black"
                     }
@@ -299,30 +295,21 @@ function clickHandler( cvs, event ) {
         if ( clickState != "promotion" ) {
             if ( cCanvas == 0 || cCanvas == 9 || rCanvas == 0 || rCanvas == 9 ) { return }
 
-            // description FIRST CLICK
             if ( gameArray[ gameArray.length - 1 ][ rBoard ][ cBoard ].pieceColor == "black" ) {
                 newMovement()
-                if(movementRepetition( gameArray )) {alert("DRAW!")}
+                if ( movementRepetition( gameArray ) ) { alert( "DRAW!" ) }
                 pieceToMove = getSelectedPiece( gameArray[ gameArray.length - 1 ], rBoard, cBoard )
-
                 originC = cBoard
                 originR = rBoard
-
                 paintSelectedPiece( pieceToMove, rCanvas, cCanvas )
-
                 availMatrix = gameState( newNameMatrix, turn, pieceToMove )
-
                 paintAvailable( availMatrix )
-
                 clickState = true
-
                 return
             }
 
-            // description SECOND CLICK
             else if ( clickState == true ) {
                 if ( availMatrix[ rBoard ][ cBoard ] == 2 || availMatrix[ rBoard ][ cBoard ] == -2 ) {
-                    // description PAWN PROMOTION CONDITION
                     if ( pieceToMove.pieceType == "pawn" && originR == 6 && rBoard == 7 ) {
                         showPieces( turn )
                         tempNameMatrix = setNewPositions( originR, originC, rBoard, cBoard, newNameMatrix, pieceToMove )
@@ -332,25 +319,17 @@ function clickHandler( cvs, event ) {
                         clickState = "promotion"
                         return
                     }
-
                     if ( pieceToMove.pieceType == "king" || pieceToMove.pieceType == "rook" ) { pieceToMove.moved = true }
-
-
                     gameArray.push( setNewPositions( originR, originC, rBoard, cBoard, newNameMatrix, pieceToMove ) )
-
-
                     setPosition( gameArray[ gameArray.length - 1 ] )
-
                     if ( pieceToMove.pieceType == "pawn" && originR == 1 && rBoard == 3 ) {
                         console.log( "Jumped two" )
                         setPassant( gameArray[ gameArray.length - 1 ], turn, pieceToMove, rBoard, cBoard )
                     }
                     newMovement()
-
                     turn = turn * -1
                     return
                 }
-                // description CASTLING
                 if ( availMatrix[ rBoard ][ cBoard ] == 99 ) {
                     var castlingNameMatrix = copyMatrix( newNameMatrix )
                     castlingNameMatrix = setNewPositions( originR, originC, rBoard, cBoard, newNameMatrix, pieceToMove )
@@ -386,7 +365,6 @@ function clickHandler( cvs, event ) {
             }
         }
 
-        // description PAWN PROMOTION MODE
         else {
             showPieces( turn )
             if ( cCanvas == 9 && rCanvas != 9 && rCanvas != 0 && rCanvas != 5 && rCanvas != 6 && rCanvas != 7 && rCanvas != 8 ) {
@@ -408,10 +386,10 @@ function clickHandler( cvs, event ) {
                 }
                 if ( rCanvas == 3 ) {
                     if ( pieceToMove.c % 2 == 0 ) {
-                        pieceToMove = new Bishop( "black", "black", pieceToMove.c, pieceToMove.r ) // reminder copy/paste -> "black" "black"
+                        pieceToMove = new Bishop( "black", "black", pieceToMove.c, pieceToMove.r )
                     }
                     else {
-                        pieceToMove = new Bishop( "black", "white", pieceToMove.c, pieceToMove.r ) // reminder copy/paste -> "black" "white"
+                        pieceToMove = new Bishop( "black", "white", pieceToMove.c, pieceToMove.r )
                     }
                     tempNameMatrix[ pieceToMove.r ][ pieceToMove.c ] = pieceToMove
                     gameArray.push( tempNameMatrix )

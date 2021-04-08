@@ -2,7 +2,7 @@ import { King, Queen, Bishop, Knight, Rook, Pawn } from "./classes.js"
 
 // description CREATES OBJECTS OF PIECES WITH RESPECTIVE CLASSES
 
-//info Class("pieceColor", "pieceTyle")
+// info Class("pieceNumber", "pieceColor", "pieceTile")
 
 export var kW = new King( 1, "white" )
 export var qW = new Queen( 2, "white" )

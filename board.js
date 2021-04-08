@@ -14,7 +14,7 @@ const numbersy = [ "r", 0, 1, 2, 3, 4, 5, 6, 7, "" ]
 export function board() {
 
   // description DRAW BOARD
-  
+
   for ( let c = 0; c < fieldSize; c++ ) {
     for ( let r = 0; r < fieldSize; r++ ) {
       if ( c == 0 || r == 0 ) {

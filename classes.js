@@ -11,7 +11,8 @@ import {
 
 export class King {
 
-    // info Constructor; color of piece, pieceType, piece Column, piece Row + (moved (for king and rook --> castling))
+    // description CONSTRUCTOR
+    // info Constructor; pieceNumber (a number for each piece), color of piece, pieceType, piece Column, piece Row + (moved (for king and rook --> castling))
     constructor( pieceNumber, color, c, r ) {
         this.pieceColor = color
         this.pieceType = "king"
@@ -21,6 +22,7 @@ export class King {
         this.pieceNumber = pieceNumber
     }
 
+    // description OPTIONS FOR EACH PIECE IMAGE
     // info Draws piece image at object position
     drawPiece() {
         if ( this.pieceColor == "white" ) {
@@ -52,7 +54,7 @@ export class King {
 
 }
 export class Queen {
-    constructor( pieceNumber,color, c, r ) {
+    constructor( pieceNumber, color, c, r ) {
         this.pieceColor = color
         this.pieceType = "queen"
         this.r = r
@@ -88,7 +90,7 @@ export class Queen {
 
 }
 export class Bishop {
-    constructor( pieceNumber,color, tile, c, r ) {
+    constructor( pieceNumber, color, tile, c, r ) {
         this.pieceColor = color
         this.pieceType = "bishop"
         this.pieceTile = tile
@@ -121,7 +123,7 @@ export class Bishop {
     }
 }
 export class Knight {
-    constructor( pieceNumber,color, c, r) {
+    constructor( pieceNumber, color, c, r ) {
         this.pieceColor = color
         this.pieceType = "knight"
         this.r = r
@@ -154,7 +156,7 @@ export class Knight {
 
 }
 export class Rook {
-    constructor( pieceNumber,color, c, r) {
+    constructor( pieceNumber, color, c, r ) {
         this.pieceColor = color
         this.pieceType = "rook"
         this.r = r
@@ -188,7 +190,7 @@ export class Rook {
     }
 }
 export class Pawn {
-    constructor(pieceNumber, color, c, r ) {
+    constructor( pieceNumber, color, c, r ) {
         this.pieceColor = color
         this.pieceType = "pawn"
         this.r = r

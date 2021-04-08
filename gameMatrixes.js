@@ -127,15 +127,20 @@ export function setPosition( nameMatrix ) {
     } )
 }
 
-export function identityMatrix(nameMatrix) {
+export function identityMatrix( nameMatrix ) {
+
+    // description SETS EACH .pieceNumber TO EACH PIECE
+    // parameter NAME MATRIX    
+    // return MATRIX (idMatrix)
+
     var idMatrix = makeEmptyMatrix()
-    nameMatrix.map((row, rowIndex) => {
-        Object.values(row)
-        Object.values(row).map((position, colIndex) => {
-            if (position != 0) {
-                idMatrix[rowIndex][colIndex] = position.pieceNumber
+    nameMatrix.map( ( row, rowIndex ) => {
+        Object.values( row )
+        Object.values( row ).map( ( position, colIndex ) => {
+            if ( position != 0 ) {
+                idMatrix[ rowIndex ][ colIndex ] = position.pieceNumber
             }
-        })
-    })
+        } )
+    } )
     return idMatrix
 }

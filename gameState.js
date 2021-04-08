@@ -1,9 +1,9 @@
 import { castling } from "./castling.js"
 import { makeEmptyMatrix } from "./gameMatrixes.js"
-import { editAvailMovLeft } from "./jaque.js"
+import { editAvailMovLeft } from "./checkMatrixFunction.js"
 import { editPassantMatrix } from "./pawnFunctions.js"
 import { movLeft, underCheck } from "./scanMatrixes.js"
-import { checkMaterial } from "./tablas.js"
+import { checkMaterial } from "./drawCondFunctions.js"
 
 export function gameState( nameMatrix, turn, pieceToMove ) {
 
@@ -12,22 +12,31 @@ export function gameState( nameMatrix, turn, pieceToMove ) {
     // return MATRIX (selectedPiece availMatrix if all OK)
 
     var availMatrix = makeEmptyMatrix()
+
+    // subDescription CHECKS INSUFFICIENT MATERIAL DRAW CONDITION
     if ( checkMaterial( nameMatrix ) ) { console.log( "DRAW" ); alert( "DRAW!" ) }
-    // info Scan if movements left (without caring if under enemy check) (StaleMate or CheckMate)
+
+    // subDescription MOVEMENTS LEFT
+    // info Scan without caring if under check, if there's movements left, if false --> Stale Mate
     if ( movLeft( nameMatrix, turn ) ) {
 
         // info If movements left
+
+        // subDescription UNDER ENEMY CHECK
         // info Scan if under enemy check
         if ( underCheck( nameMatrix, turn ) ) {
             console.log( "under Check" )
 
-            // info Under enemy check
-            // info Modify availMatrix and scan if new position creates enemy check and if there's movements left
+            // info If under enemy check
+
+            // subDescription EDIT AVAILABLE MATRIX IF UNDER CHECK
+            // info Scan piece available positions, and modify availableMatrix, return if available left
             if ( editAvailMovLeft( nameMatrix, turn, pieceToMove )[ 1 ] ) {
                 console.log( "available Movements" )
 
-                // info Under enemy check and with movements left
-                // info Set modified avail matrix to availMatrix of selected piece
+                // info If movements left
+
+                // info Set modified availMatrix to availMatrix of selected piece
                 availMatrix = editAvailMovLeft( nameMatrix, turn, pieceToMove )[ 0 ]
                 return availMatrix
             }
@@ -39,22 +48,27 @@ export function gameState( nameMatrix, turn, pieceToMove ) {
         else {
 
             // info Not under check and movements left
-            // info Do scanAvail with no restrictions and add availMatrix to selectedPiece avail matrix
+
             console.log( "not under check" )
 
+            // subDescription PASSANT CONDITION
+            // info If selected piece has .passant condition True, trigger Passant function
             if ( pieceToMove.passant == true ) {
-                console.log( "euuefhewiuh" )
                 availMatrix = editPassantMatrix( nameMatrix, editAvailMovLeft( nameMatrix, turn, pieceToMove )[ 0 ], pieceToMove, turn )
                 console.log( availMatrix )
                 return availMatrix
             }
 
-            // info if selected piece is a king and hasn't moved, look if castling available
+            // subDescription CASTLING CONDITION
+            // info If selected piece is a king and hasn't moved, look if castling available
             if ( pieceToMove.pieceType == "king" && pieceToMove.moved == false ) {
+
+                // info Modify availMatrix with castling option
                 availMatrix = castling( nameMatrix, pieceToMove, turn )
                 return availMatrix
             }
 
+            // info If no special condition met (passant or castling), just return edited availMatrix of selected Piece 
             availMatrix = editAvailMovLeft( nameMatrix, turn, pieceToMove )[ 0 ]
             return availMatrix
         }

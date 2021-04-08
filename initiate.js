@@ -1,11 +1,12 @@
 import { board } from "./board.js"
-import { drawPieces } from "./draw.js"
+import { drawPieces } from "./drawFunctions.js"
 import { startingNameMatrix, makeNameStartingMatrix, setPosition } from "./gameMatrixes.js"
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
 // description GAME ARRAY WITH EVERY TURN MATRIX
+// info Every new movement generates a new matrix pushed inside the array, for a White + Black movement, we have 2 matrixes.
 export var gameArray = []
 
 

@@ -35,6 +35,8 @@ README STRUCTURE:
 
     - 5) Code to copy/paste
 
+    - 6) Things this game does not include
+
 
 --------------------------------------------------------------------
 
@@ -394,6 +396,8 @@ The Name Matrix is the mother matrix, the rest of different matrixes we will be 
 
         For white pieces it draws a 1 for an empty square which is available as destination, a -1 for an available square that contains an enemy piece (so, a kill), and it also includes a -11, which indicates that this killing destination is actually a king, so a check.
 
+        For black pieces, instead of 1 and -1 u have 2 and -2, and a king is a -22
+
         In case of en passant available position, it draws a 100
 
         In case of a castling available position, it draws a 99 for white and a -99 for black
@@ -457,11 +461,11 @@ The Name Matrix is the mother matrix, the rest of different matrixes we will be 
 
 (3) EXPLAINING CLASSES
 
-So, we have 6 different classes for each piece type. So we have a King, Queen, Bishop, Knight, Rook and Pawn class.
+So, we have 6 different classes for each piece type. We have a King, Queen, Bishop, Knight, Rook and Pawn class.
 
 This classes contain all the basic information needed to make a piece.
 
-All of them have the same 3 parts
+All of them have the same 2 parts
 
     - Constructor: Here we have different kinds of parameters for each piece, but all of them have this 5 ones:
         - this.pieceNumber : number for the identityMatrix
@@ -470,10 +474,10 @@ All of them have the same 3 parts
         - this.pieceType : indicates which kind of piece it is
 
         - then you also have:
-            - this.pieceTile : for Bishops, tells on which tiles this bishop will be playing
-            - this.passant : for Pawns, it tells if this piece is ready to kill en passant
-            - this.toKill : for Pawns, it tells if this piece is in a position to be killed en passant
-            - this.moved : for Kings and Rooks, it tells you if a piece has moved, for the castling condition
+            - this.pieceTile : for Bishops, tells on which tile color this bishop will be playing
+            - this.passant : for Pawns, it tells if this pawn is ready to kill en passant
+            - this.toKill : for Pawns, it tells if this pawn is in a position to be killed en passant
+            - this.moved : for Kings and Rooks, it tells you if the king or rook has moved, for the castling condition
 
     - Methods:
 
@@ -482,9 +486,9 @@ All of them have the same 3 parts
 
 When we create the pieces, in piecesObjects.js, we set which class it will be (new King() for instance) and then we pass in the diferent constructor parameters that we set at the beginning, like this.pieceNumber, this.pieceColor, and this.pieceTyle
 
-The this.pieceType is set right inside the constructor, since it doesn't matter what color the piece is because either a black or white bishop is a bishop.
+The this.pieceType is set right inside the constructor, since it doesn't matter what color the piece is because either black or white bishops are bishops.
 
-We only change the class of a piece when a pawn promotes to another piece. Here, we take that particular pawn (pW4 for instance), and just set a new class to define it (new Queen() for instance). In this case, the pW4 will be a Queen.
+We only change the class of a piece when a pawn promotes to another piece. Here, we take that particular pawn (pW4 for instance), and just set a new class to define it (new Queen() for instance). In this case, the pW4 will be a Queen, but it's name will still be pW4.
 
 --------------------------
 
@@ -517,8 +521,7 @@ This section will be divided in two main parts: 1) Explaining variables & 2) Exp
 
 In this file we use 7 global variables, which are:
 
-
-    - clickState: This variable sets if it is the first or second click. clickState == false means first click
+    - clickState: This variable sets if it is the first or second click. clickState = false means first click
 
     - turn: Sets the turn, 1 for white and -1 for black
 
@@ -551,7 +554,7 @@ Since both white and black's turn are exactly the same, I will only explain the 
 
 (1) SETTING COORDINATES
 
-At the beginning of the clickHandler(), right before the first turn starts, how we get the x and y position of the clicked position inside the canvas.
+At the beginning of the clickHandler(), right before the first turn starts, we get the x and y position of the clicked square inside the canvas.
 
 Then, since the actual x and y position are decimals, we get only the whole number and set it to rBoard and cBoard.
 
@@ -567,7 +570,7 @@ The canvas matrix starts at the top left corner with the (0,0) coordinates and e
 
 The board top left corner is at (1,1) and the bottom right corner is in (8,8). 
 
-So if cCanvas is 6, cBoard will be 5, and cCanvas = 0 will be outside the cBoard limits.
+So if cCanvas is 6, cBoard will be 5, and if cCanvas = 0, cBoard will be outside it's scan limits.
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 [0, 1, 1, 1, 1, 1, 1, 1, 1, 0]
@@ -580,7 +583,9 @@ So if cCanvas is 6, cBoard will be 5, and cCanvas = 0 will be outside the cBoard
 [0, 1, 1, 1, 1, 1, 1, 1, 1, 0]
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-So for instance, the canvas is the whole matrix (external 0's with the 1's inside) and the board is the 1's square.
+So for a visual representation, the canvas is the whole matrix (external 0's with the 1's inside) and the board is the 1's square.
+
+I must say that the canvas is not the vertical and horizontal lines with 0's, it's this whole 10x10 matrix, the 0's are the part of the canvas not overlapped by the board.
 
 Hope it's clear.
 
@@ -594,7 +599,7 @@ It all starts with the if (turn == 1) statement.
 
 Then we go right to the First Click.
 
-So we encounter the if (clickState != "promotion") conditional. Don't bother about it now, will explain it later. In short, since the clickState is defined by default as false, false is the first click.
+So we encounter the if (clickState != "promotion") conditional. Don't bother about it now, I will explain it later. In short, since the clickState is defined by default as false, false is the first click, but there's also a clickState for the pawn promotion mode.
 
 So once we enter inside this if statement, we find the first click brain.
 
@@ -604,32 +609,32 @@ We find the first important conditional:
 
 - if ( gameArray[ gameArray.length - 1 ][ rBoard ][ cBoard ].pieceColor == "white" )
 
-    Here we acces the Game Array, and go to it's last element (the current name matrix) and check if inside this matrix, the selected position [rBoard][cBoard] has a piece which color is white (in black's turn, white is changed to black).
+    - Here we acces the Game Array, and go to it's last element (the current name matrix) and check if inside this matrix, the selected board square [rBoard][cBoard] has a piece which color is white (in black's turn, white is changed to black).
 
-- If we have pressed a white piece, first we find an odd newMovement() function.
+- If we have pressed a white piece, first we find a weird newMovement() function.
 
-    newMovement() lives inside handlerFunctions.js
+    - newMovement() lives inside handlerFunctions.js
 
-    This is here so if you after pressing a white piece, you press another white piece, everything is reset and you can draw this new individual piece, not having two white pieces selected.
+    - This is here so if after pressing a white piece, you press another white piece, everything is reset and you can highlight this new individual piece, not having two white pieces highlighted.
 
 - Now, before everything is assigned, we trigger the movementRepetition() function (which lives inside movRepetition.js). 
 
     - movementRepetition() is the function that scans if the movement repetition draw condition is met.
     
-        - It works by taking the gameArray, and if there has been 9 or more moves, it checks the current nameMatrix, the nameMatrix of 2 full white and black moves, and the 4 full white and black moves to compare them.
+        - It works by taking the gameArray, and if there has been already 9 or more moves, it checks the current nameMatrix, the nameMatrix of 2 full white and black moves, and the 4 full white and black moves to compare them (so gameArray[gameArray.length-1 .length-5 and .length-9])
         - Here is the only place where we create the identityMatrix. We use it to compare this different matrixes of the gameArray to see if we repeated the same position 3 times, and a draw ends the game.
         - It returns a boolean that indicates if the draw condition is met or not, if so, we have the FIRST GAME ENDING CONDITION, we trigger an alert if this function returns a boolean as true (draw is true)
 
 - After the movement repetition draw condition, and being this false, we can continue the game.
 - We encounter an assignation to pieceToMove with the function getSelectedPiece() (which lives inside handlerFunctions.js)
 
-    - This function just takes the name matrix, the coordinates of the piece to move, and returns a variable which is this piece. 
+    - This function just takes the name matrix, the coordinates of the piece to move, searches for the coordinates of the piece in the nameMatrix, and returns a variable which is this piece found at the coordinates of the nameMatrix. 
     - Then we just assign what the function returns to pieceToMove
     - Now pieceToMove will be the piece we pressed on
 
 - We have the piece, now we need to store it's position. We set r/cBoard to originR/C.
 
-- paintSelectedPiece() is a function that draws a square around the selected piece, so it is easy to see which piece is selected (it lives inside drawingFunctions.js)
+- paintSelectedPiece() is a function that draws a square around the selected piece, it highlights it, so it is easy to see which piece is selected (it lives inside drawingFunctions.js)
 
 - And after we have the piece, it's position and we highlighted it, we encounter what is probably the most important part of the clickHandler: gameState() (lives inside gameState.js)
 
@@ -641,7 +646,7 @@ We find the first important conditional:
             - This function called checkMaterial() (which lives inside insufMaterial.js) scans if the remaining pieces on the board are enough for playing
             
                 - We create 3 arrays (king, bishop and knight array). We will push in every king, bishop or knight we encounter while scanning the nameMatrix
-                - While we map the nameMatrix, if we find a king, bishop or knight we push it into it's correspondent array. If we encounter another piece, we create a counter that is increased by 1 for each piece.
+                - While we map the nameMatrix, if we find a king, bishop or knight we push it into it's correspondent array. If we encounter another piece, we create a counter that is increased by 1 for each piece that is not a King, Bishop or Knight.
                 - Then come the conditions:
 
                     - If the only remaining pieces are those in the arrays, we check if we have the draw conditions:
@@ -656,11 +661,11 @@ We find the first important conditional:
 
             - This main part has a structure:
 
-                - First we look if there's available movements for turn's pieces, doesn't matter if you are under a current check or not
+                - First we look if there's available movements for turn's pieces, doesn't matter if you are under an enemy check or not
 
                     - This function is called movLeft() and lives inside scanMatrixes.js
 
-                        - This function takes the turn and the name matrix, and scan thru the name matrix and looks for every piece if they have movements left.
+                        - This function takes the turn and the name matrix, and scans thru the name matrix and looks for every piece if they have movements left.
                             - It works by taking the name matrix, mapping it, and if the found piece is a turn piece, it triggers the scanAvail method of it's class, returning an availMatrix
                             - Then we call another function called scanIfEmpty() (which also lives inside scanMatrixes.js) to scan if the availMatrix generated has something else than all 0's, if it only has 0's it is considered empty, so no available movements left
                             - It returns a boolean of movementsLeft
@@ -829,7 +834,17 @@ Copy this piece of JSON inside the settings.json file of your settings in VSCODE
 
 -----------------------------------------------------
 
+--------------------------------------------------------------------
 
+6) THINGS THIS GAME DOES NOT INCLUDE
+
+- Does not tell you how many pieces are dead
+
+- Does not tell you which pieces are dead
+
+- Does not tell you which piece killed which
+
+( feel free to include all of this things, i will maybe, when i rework this code into react.js, i will include them, don't know, will see )
 
 
 codes:
@@ -847,4 +862,12 @@ black:
 - castle queenSide = 99
 - castle kingSide = -99
 
+TO DO README:
 
+FIRST CLICK castling
+
+FIRST CLICK EN passant
+
+FIRST CLICK promotion
+
+SECOND CLICK

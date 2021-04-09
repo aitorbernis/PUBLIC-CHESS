@@ -119,13 +119,15 @@ the "tag": "description", wont be the same in your settings, you will probably h
 
 At the end of this README file, at 5) Code to copy/paste, you will find a piece of JSON that looks like this, but it has included those special comments im using like // description, // return, // parameter, etc...
 
+If you wanna see the commentaries as I see them and as it is intended to be seen in this code, copy-paste it into the settings.json
+
 Also, I use as Theme ATOM ONE DARK THEME, also an extension.
 
 --------------------------------------------------------------------
 
 2) SHORT CODE AND GAME EXPLANATION
 
-First of all, every file in this code is commented, every function has the same comment structure. The comments in the actual files are very short, just a fist reminder. The full explanation is here. (At 4) Full code steps explanation)
+First of all, every file in this code is commented, every function has the same comment structure. The comments in the actual files are very short, just a first reminder. The full explanation is here. (At 4) Full code steps explanation)
 
 The whole game is focused on what I called the nameMatrix, a matrix (array of arrays) which includes every piece in it's position.
 
@@ -152,7 +154,7 @@ var kW = new King( 1, "white" ) (this is done in piecesObjects.js file)
 
 It works with an eventListener, which triggers the eventHandler() function everytime we click.
 
-The eventHandler function is divided in two, first and second click (repeated for both white and black turn), and with every click, conditions must be met so you can move further.
+The eventHandler function is divided in two: first and second click (repeated for both white and black turn), and with every click, conditions must be met so you can move further.
 
 It is written in full VanillaJS
 
@@ -307,7 +309,7 @@ The Name Matrix:
         [ rW1, knW1, bW2, qW, kW, bW1, knW2, rW2 ]
     ]
 
-    As you can see, the pW1 (pawn) is not at A4.
+    As you can see, the pW1 (pawn) is now at A4.
 
 The Click Handler:
 
@@ -319,7 +321,7 @@ The Click Handler:
 
     Inside every turn we have 2 divisions, first and second click.
 
-    First click determines which piece you want to move. It selects this piece and asks for a second click, to determine the destination of each position.
+    First click determines which piece you want to move. It selects this piece and asks for a second click, to determine the destination.
 
     The second click determines the destination of the piece. 
 
@@ -331,25 +333,25 @@ The Click Handler:
 
 To start the game first we need an HTML, which is the index.html file.
 
-This file includes nothing more a Canvas.
+It includes a canvas.
 
 The canvas is where the board will live, and where your whole game will live. Clicks are only detected inside the canvas, so if you click outside, nothing will happen.
 
-Also we link both the style.css and the javascript, using engine.js as the source for everything.
+Also we link both the style and the javascript, using engine.js as the source for the javascript and style.css for the css
 
 The style.css file only sets the canvas in the middle of the screen.
 
 The engine.js file includes two functions, here we will focus on the first one, the startingFunction().
 
-This function is defined in startingFunction.js file.
+This function lives in startingFunction.js file.
 
-Here, in this file, the same name function startingFunction() creates the first board calling the board() function inside board.js file. This draws the board.
+Here, in this file, the same name function startingFunction() creates the first board calling the board() function which lives inside board.js file. This draws the board.
 
 Then we push inside the Game Array the startingNameMatrix, using the makeNameStartingMatrix() function.
 
-Each piece has in their class constructors it's this.c and this.r, which determine the row and column inside the nameMatrix, so it's position.
+Each piece has in their class constructors a this.c and this.r, which determine the row and column inside the nameMatrix, so, it's position.
 
-And at the end, we go to the Game Array and draw the pieces from the matrix inside the canvas.
+And at the end, we go to the Game Array and draw the pieces from the latest matrix inside the canvas.
 
 --------------------------
 
@@ -380,7 +382,7 @@ The Name Matrix is the mother matrix, the rest of different matrixes we will be 
         As you see, every black piece is a 2 (despite King, which is a 22) and same story with white pieces.
 
         The scanAvailable.js file functions use this matrix to determine available positions. Because a white piece doesn't really care wether if the piece in front of it is a Rook, a Bishop or a Pawn, it only matters that it is an oponent's piece and that it's not the king.
-        The 11/22 notation for kings is used to differenciate them, because every time one of the available positions is an 11 or a 22, it means that's a check.
+        The 11/22 notation for kings is used to differenciate them, because every time we find a 22 or 11, we know it's a king and not any other piece.
 
     - Then we have what I called the Available Matrix (or availMatrix)
 

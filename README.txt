@@ -72,7 +72,7 @@ README STRUCTURE:
     │                                                   │
     └───────────────────────────────────────────────────┘
 
-    - Don't close the terminal, go to your browser and just paste what's copied in your clipboard (http://localhost:5000)
+    - Don't close the terminal, go to your browser and just paste what's copied in your clipboard (http://localhost:****)
 
     - Once there, just go find the folder which has all the code and pieces images, and there you have it!
 

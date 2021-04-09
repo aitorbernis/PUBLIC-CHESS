@@ -21,6 +21,7 @@ export function movementRepetition( gameArray ) {
         var idMatrix9 = identityMatrix( matrix9 )
         var idMatrix5 = identityMatrix( matrix5 )
         var idMatrix1 = identityMatrix( matrix1 )
+        console.log(idMatrix1);
 
         // info Compare current matrix with former one
         if ( sameMatrix( idMatrix1, idMatrix5 ) ) {

@@ -10,7 +10,7 @@ import { scanIfEmpty, setZero, underCheck } from "./scanMatrixes.js"
 
 export function editAvailMovLeft( nameMatrix, turn, pieceToMove ) {
 
-    // description MODIFIES THE AVAILMATRIX (WHILE UNDER ENEMY CHECK) OF A PIECE DEPENDING IF IT CREATES ENEMY CHECK
+    // description MODIFIES THE AVAILMATRIX OF A PIECE DEPENDING IF IT CREATES ENEMY CHECK
     // parameter MATRIX OF NAMES & TURN OF GAME
     // return array[MATRIX (selected piece modified check), BOOLEAN (movesLeft true/false)]
 

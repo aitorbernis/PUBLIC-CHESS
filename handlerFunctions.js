@@ -1,7 +1,7 @@
 import { board } from "./board.js"
-import { drawPieces } from "./drawFunctions.js"
+import { drawPieces } from "./drawingFunctions.js"
 import { copyMatrix } from "./gameMatrixes.js"
-import { gameArray } from "./initiate.js"
+import { gameArray } from "./startingFunction.js"
 
 
 export function setNewPositions( originR, originC, destinationR, destinationC, matrixToEdit, pieceToMove ) {

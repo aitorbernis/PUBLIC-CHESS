@@ -1,6 +1,6 @@
 import { cvs } from "./canvasVar.js"
-import { gameArray } from "./initiate.js"
-import { paintSelectedPiece, paintAvailable } from "./drawFunctions.js"
+import { gameArray } from "./startingFunction.js"
+import { paintSelectedPiece, paintAvailable } from "./drawingFunctions.js"
 import { copyMatrix, setPosition } from "./gameMatrixes.js"
 import { showPieces, setPassant, deletePassantKilled, setPassantFalse } from "./pawnFunctions.js"
 import { Queen, Knight, Bishop, Rook } from "./classes.js"

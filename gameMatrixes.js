@@ -33,19 +33,6 @@ export function makeNameStartingMatrix() {
 // -------------------------------------------------------------------
 
 
-// export function makeNameStartingMatrix() {
-//     startingNameMatrix = [
-//         [rB1, knB1, bB1, qB, kB, bB2, knB2, rB2],
-//         [pB1, pB2, pB3, pB4, pB5, pB6, pB7, pB8],
-//         [0, 0, 0, 0, 0, 0, 0, 0],
-//         [0, 0, 0, 0, 0, 0, 0, 0],
-//         [0, 0, 0, 0, 0, 0, 0, 0],
-//         [0, 0, 0, 0, 0, 0, 0, 0],
-//         [pW1, pW2, pW3, pW4, pW5, pW6, pW7, pW8],
-//         [rW1, knW1, bW2, qW, kW, bW1, knW2, rW2]
-//     ]
-// }
-
 export function makeNumberMatrix( nameMatrix ) {
 
     // description MAKES A NUMBER MATRIX FROM A NAME MATRIX

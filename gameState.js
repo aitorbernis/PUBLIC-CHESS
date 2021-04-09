@@ -3,7 +3,7 @@ import { makeEmptyMatrix } from "./gameMatrixes.js"
 import { editAvailMovLeft } from "./checkMatrixFunction.js"
 import { editPassantMatrix } from "./pawnFunctions.js"
 import { movLeft, underCheck } from "./scanMatrixes.js"
-import { checkMaterial } from "./drawCondFunctions.js"
+import { checkMaterial } from "./insufMaterial.js"
 
 export function gameState( nameMatrix, turn, pieceToMove ) {
 
